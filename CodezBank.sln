@@ -5,6 +5,11 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CodezBank", "CodezBank\CodezBank.vcxproj", "{42D5BD8B-9C6E-49C9-9A23-DF8DD9DC2DBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DCDDE1A6-C430-4C61-A43F-D88D162B9B9D}"
+	ProjectSection(SolutionItems) = preProject
+		mycode_snippets.codezbank = mycode_snippets.codezbank
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
