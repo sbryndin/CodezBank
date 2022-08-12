@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
-// Author: steveb sbryndin@yahoo.com
+// Author: steveb
 //
 // History:
 //
@@ -46,7 +46,6 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-public:
    afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 

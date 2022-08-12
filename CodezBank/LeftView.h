@@ -83,7 +83,6 @@ protected:
    afx_msg void OnEditRename();
    afx_msg void OnUpdateEditRename(CCmdUI *pCmdUI);
    afx_msg void OnUpdateViewUponelevel(CCmdUI *pCmdUI);
-public:
    afx_msg void OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
