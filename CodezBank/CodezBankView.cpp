@@ -30,7 +30,7 @@
 #define new DEBUG_NEW
 #endif
 
-using namespace Views;
+//using namespace Views;
 
 bool CCodezBankView::m_bSortOrder = false;
 
@@ -97,10 +97,16 @@ void CCodezBankView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStruct)
 	CListView::OnStyleChanged(nStyleType,lpStyleStruct);	
 }
 
-int Views::CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
    if (CListView::OnCreate(lpCreateStruct) == -1)
       return -1;
+
+ 
+   DWORD dwExStyles = ListView_GetExtendedListViewStyle(GetListCtrl().GetSafeHwnd());
+   ListView_SetExtendedListViewStyle(GetListCtrl().GetSafeHwnd(),
+      LVS_EX_FULLROWSELECT |
+      LVS_EX_HEADERDRAGDROP | dwExStyles);
 
    m_Image.Create(32, 32, ILC_MASK|ILC_COLOR24, 0, 1);
 
@@ -124,10 +130,11 @@ int Views::CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    DWORD dwStyle = AfxGetApp()->GetProfileInt(SECTION_SETTINGS, KEY_LISTSTYLE, LVS_ICON);
    ModifyStyle(LVS_TYPEMASK, dwStyle);
 
+   m_wndHeader.SubclassDlgItem(0, this);
    return 0;
 }
 
-void Views::CCodezBankView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
+void CCodezBankView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
    CCodeNode* pNodeIn = reinterpret_cast<CCodeNode*>(pHint);
 
@@ -185,7 +192,7 @@ void CCodezBankView::Refresh(CCodeNode* pNode)
    }
 }
 
-void Views::CCodezBankView::OnLvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnLvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
 {
    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
 
@@ -209,7 +216,7 @@ void Views::CCodezBankView::OnLvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-void Views::CCodezBankView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
    *pResult = 0;
@@ -222,20 +229,20 @@ void Views::CCodezBankView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
    GetDocument()->UpdateAllViews(this, hintSelTreeItem, pNode);
 }
 
-void Views::CCodezBankView::OnNMClick(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnNMClick(NMHDR *pNMHDR, LRESULT *pResult)
 {
    // TODO: Add your control notification handler code here
    *pResult = 0;
 }
 
-void Views::CCodezBankView::OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
    // TODO: Add your control notification handler code here
    *pResult = 0;
 }
 
-void Views::CCodezBankView::OnLvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnLvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
 {
    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
    CCodeNode* pNode = reinterpret_cast<CCodeNode*>(pDispInfo->item.lParam);
@@ -332,7 +339,7 @@ int CALLBACK CCodezBankView::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM 
 
 }
 
-void Views::CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
+void CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
    m_bSortOrder = !m_bSortOrder;
@@ -340,7 +347,7 @@ void Views::CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-void Views::CCodezBankView::OnEditRename()
+void CCodezBankView::OnEditRename()
 {
    POSITION pos = GetListCtrl().GetFirstSelectedItemPosition();
    if(!pos)

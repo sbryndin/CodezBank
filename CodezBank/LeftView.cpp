@@ -531,17 +531,17 @@ void Views::CLeftView::OnLButtonUp(UINT nFlags, CPoint point)
 HTREEITEM CLeftView::CopyBranch( HTREEITEM htiBranch, HTREEITEM htiNewParent, 
                                                 HTREEITEM htiAfter /*= TVI_LAST*/ )
 {
-        HTREEITEM hChild;
+   HTREEITEM hChild;
 
-        HTREEITEM hNewItem = CopyItem( htiBranch, htiNewParent, htiAfter );
-        hChild = GetTreeCtrl().GetChildItem(htiBranch);
-        while( hChild != NULL)
-        {
-          // recursively transfer all the items
-          CopyBranch(hChild, hNewItem);  
-          hChild = GetTreeCtrl().GetNextSiblingItem( hChild );
-        }
-        return hNewItem;
+   HTREEITEM hNewItem = CopyItem( htiBranch, htiNewParent, htiAfter );
+   hChild = GetTreeCtrl().GetChildItem(htiBranch);
+   while( hChild != NULL)
+   {
+      // recursively transfer all the items
+      CopyBranch(hChild, hNewItem);  
+      hChild = GetTreeCtrl().GetNextSiblingItem( hChild );
+   }
+   return hNewItem;
 }
 
 HTREEITEM CLeftView::CopyItem( HTREEITEM hItem, HTREEITEM htiNewParent, 

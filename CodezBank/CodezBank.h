@@ -19,6 +19,9 @@
 // Author: steveb
 //
 // History:
+// 
+// 08/12/22 Changed bas app class from CWinApp to CWinAppEx to take advantage
+//          of new MFC features.
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
