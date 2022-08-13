@@ -50,10 +50,6 @@ BEGIN_MESSAGE_MAP(CCodezBankDoc, COleDocument)
    ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, &CCodezBankDoc::OnUpdateEditRedo)
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankDoc::CCodezBankDoc()://:CUndo(100)
   m_bBeginSearch(false)
 , m_bFoundMatch(false)
@@ -61,27 +57,15 @@ CCodezBankDoc::CCodezBankDoc()://:CUndo(100)
    EnableCompoundFile(TRUE);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankDoc::~CCodezBankDoc()
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 //CRichEditCntrItem* CCodezBankDoc::CreateClientItem(REOBJECT* preo) const
 //{
 //	return new CRichEditCntrItem(preo, const_cast<CCodezBankDoc*>(this));
 //}
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL CCodezBankDoc::OnNewDocument()
 {
 	if (!COleDocument::OnNewDocument())
@@ -92,10 +76,6 @@ BOOL CCodezBankDoc::OnNewDocument()
 	return TRUE;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
@@ -109,19 +89,11 @@ void CCodezBankDoc::Serialize(CArchive& ar)
 }
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::AssertValid() const
 {
 	COleDocument::AssertValid();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::Dump(CDumpContext& dc) const
 {
 	COleDocument::Dump(dc);
@@ -138,10 +110,6 @@ void CCodezBankDoc::OnUpdateMod(CCmdUI* pCmdUI)
    pCmdUI->m_bContinueRouting = TRUE;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::DeleteContents()
 {
    UpdateAllViews(NULL, hintClearDocument);
@@ -149,10 +117,6 @@ void Document::CCodezBankDoc::DeleteContents()
    COleDocument::DeleteContents();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnCodeNewfolder()
 {
    CCodeNode* pNode = new CCodeNode;
@@ -160,19 +124,11 @@ void Document::CCodezBankDoc::OnCodeNewfolder()
    UpdateAllViews(NULL, hintNewFolder, pNode);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnViewUponelevel()
 {
    UpdateAllViews(NULL, hintUpOneLevel);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnCodeNewtopmostfolder()
 {
    CCodeNode* pNode = new CCodeNode;
@@ -180,10 +136,6 @@ void Document::CCodezBankDoc::OnCodeNewtopmostfolder()
    UpdateAllViews(NULL, hintNewRootFolder, pNode);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnCodeNewcodesnippet()
 {
    CCodeNode* pNode = new CCodeNode;
@@ -192,20 +144,12 @@ void Document::CCodezBankDoc::OnCodeNewcodesnippet()
    UpdateAllViews(NULL, hintNewSnippet, pNode);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::DeleteNode(CCodeNode* ptr, bool bDeletePtr)
 {
    SetCheckpoint();
    DeleteNodeRecursive(m_lstNodes, ptr, bDeletePtr);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::DeleteNodeRecursive(CCodeNodeList& list, 
                                                   CCodeNode* ptr, bool bDeletePtr)
 {
@@ -230,10 +174,6 @@ void Document::CCodezBankDoc::DeleteNodeRecursive(CCodeNodeList& list,
    }   
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::FindString(CCodeNode* pFrom, LPCTSTR lpString, BOOL bDown, BOOL bCaseSensitve, BOOL bWholeWord)
 {
    m_bFoundMatch = false;
@@ -245,10 +185,6 @@ void CCodezBankDoc::FindString(CCodeNode* pFrom, LPCTSTR lpString, BOOL bDown, B
    SearchNodeRecursive(m_lstNodes, pFrom, lpString, bDown, bCaseSensitve, bWholeWord);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::SearchNodeRecursive(CCodeNodeList& list, 
                                         CCodeNode* ptr, 
                                         LPCTSTR lpString, 
@@ -293,10 +229,6 @@ void CCodezBankDoc::SearchNodeRecursive(CCodeNodeList& list,
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 bool CCodezBankDoc::Match(CCodeNode* ptr, LPCTSTR lpString, 
                           BOOL bCaseSensitve, BOOL bWholeWord)
 {
@@ -432,10 +364,6 @@ void CCodezBankDoc::SetModifiedFlag(BOOL bModified /*= TRUE*/)
    CDocument::SetModifiedFlag(bModified);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 INT_PTR CCodezBankDoc::CountSnippets(void)
 {
    INT_PTR nCount = 0;
@@ -443,10 +371,6 @@ INT_PTR CCodezBankDoc::CountSnippets(void)
    return nCount;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::CountSnippetsRecursive(CCodeNodeList& list, INT_PTR& nCount)
 {
    for(POSITION pos = list.GetHeadPosition(); pos != NULL; )
@@ -461,29 +385,17 @@ void CCodezBankDoc::CountSnippetsRecursive(CCodeNodeList& list, INT_PTR& nCount)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::OnUpdateSnipCount(CCmdUI* pCmdUI)
 {
    INT_PTR nCount = CountSnippets();
    Frame()->UpdateIndSnipCount(pCmdUI, nCount);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankDoc::SetCheckpoint(void)
 {
 //   CheckPoint();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL Document::CCodezBankDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
    if(!COleDocument::OnOpenDocument(lpszPathName))
@@ -494,48 +406,28 @@ BOOL Document::CCodezBankDoc::OnOpenDocument(LPCTSTR lpszPathName)
    return TRUE;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnEditUndo()
 {
 //   Undo();
 //   UpdateAllViews(NULL, hintReloadTree);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnUpdateEditUndo(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(FALSE);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnEditRedo()
 {
    //Redo();
    //UpdateAllViews(NULL, hintReloadTree);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Document::CCodezBankDoc::OnUpdateEditRedo(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(FALSE);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL Document::CCodezBankDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
    //CFileProps propFile(lpszPathName, false);

@@ -35,18 +35,10 @@ using namespace Views;
 
 IMPLEMENT_DYNCREATE(CCodeContainer, CView)
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodeContainer::CCodeContainer()
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodeContainer::~CCodeContainer()
 {
 }
@@ -56,29 +48,17 @@ BEGIN_MESSAGE_MAP(CCodeContainer, CView)
    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodeContainer::OnDraw(CDC* pDC)
 {
 }
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodeContainer::AssertValid() const
 {
 	CView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodeContainer::Dump(CDumpContext& dc) const
 {
 	CView::Dump(dc);
@@ -86,10 +66,6 @@ void CCodeContainer::Dump(CDumpContext& dc) const
 #endif
 #endif //_DEBUG
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 int Views::CCodeContainer::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
    if (CView::OnCreate(lpCreateStruct) == -1)
@@ -116,10 +92,6 @@ int Views::CCodeContainer::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeContainer::OnSize(UINT nType, int cx, int cy)
 {
    CView::OnSize(nType, cx, cy);

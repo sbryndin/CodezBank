@@ -51,27 +51,15 @@ BEGIN_MESSAGE_MAP(CCodezBankView, CListView)
    ON_COMMAND(ID_EDIT_RENAME, &CCodezBankView::OnEditRename)
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankView::CCodezBankView()
 {
    m_nMask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankView::~CCodezBankView()
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL CCodezBankView::PreCreateWindow(CREATESTRUCT& cs)
 {
    cs.style |= LVS_EDITLABELS | LVS_SHOWSELALWAYS;
@@ -79,10 +67,6 @@ BOOL CCodezBankView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
@@ -90,28 +74,16 @@ void CCodezBankView::OnInitialUpdate()
 }
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::AssertValid() const
 {
 	CListView::AssertValid();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::Dump(CDumpContext& dc) const
 {
 	CListView::Dump(dc);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankDoc* CCodezBankView::GetDocument() const // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CCodezBankDoc)));
@@ -119,20 +91,12 @@ CCodezBankDoc* CCodezBankView::GetDocument() const // non-debug version is inlin
 }
 #endif //_DEBUG
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStruct)
 {
 	//TODO: add code to react to the user changing the view style of your window	
 	CListView::OnStyleChanged(nStyleType,lpStyleStruct);	
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 int Views::CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
    if (CListView::OnCreate(lpCreateStruct) == -1)
@@ -163,10 +127,6 @@ int Views::CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
    CCodeNode* pNodeIn = reinterpret_cast<CCodeNode*>(pHint);
@@ -182,10 +142,6 @@ void Views::CCodezBankView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHin
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::Refresh(CCodeNode* pNode)
 {
    GetListCtrl().DeleteAllItems();
@@ -229,10 +185,6 @@ void CCodezBankView::Refresh(CCodeNode* pNode)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnLvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
 {
    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
@@ -257,10 +209,6 @@ void Views::CCodezBankView::OnLvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
@@ -274,20 +222,12 @@ void Views::CCodezBankView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
    GetDocument()->UpdateAllViews(this, hintSelTreeItem, pNode);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnNMClick(NMHDR *pNMHDR, LRESULT *pResult)
 {
    // TODO: Add your control notification handler code here
    *pResult = 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
@@ -295,10 +235,6 @@ void Views::CCodezBankView::OnLvnItemchanged(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnLvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
 {
    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
@@ -314,10 +250,6 @@ void Views::CCodezBankView::OnLvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::OnEditDelete()
 {
    if(Ask(MB_YESNO, "Delete selected item(s)?") == IDNO)
@@ -335,19 +267,11 @@ void CCodezBankView::OnEditDelete()
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::OnUpdateEditDelete(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(GetListCtrl().GetFirstSelectedItemPosition() != NULL);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodezBankView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
    if (point.x == -1 && point.y == -1)
@@ -375,10 +299,6 @@ void CCodezBankView::OnContextMenu(CWnd* pWnd, CPoint point)
       pWndPopupOwner);		
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 int CALLBACK CCodezBankView::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
    CCodeNode* pItem1 = reinterpret_cast<CCodeNode*>(lParam1);
@@ -412,10 +332,6 @@ int CALLBACK CCodezBankView::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM 
 
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
@@ -424,10 +340,6 @@ void Views::CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodezBankView::OnEditRename()
 {
    POSITION pos = GetListCtrl().GetFirstSelectedItemPosition();

@@ -35,19 +35,11 @@ using namespace Views;
 
 IMPLEMENT_DYNCREATE(CNotesView, CEditView)
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CNotesView::CNotesView():
   m_pData(NULL)
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CNotesView::~CNotesView()
 {
    m_font.DeleteObject();
@@ -59,20 +51,12 @@ BEGIN_MESSAGE_MAP(CNotesView, CEditView)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CNotesView::AssertValid() const
 {
 	CEditView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CNotesView::Dump(CDumpContext& dc) const
 {
 	CEditView::Dump(dc);
@@ -80,10 +64,6 @@ void CNotesView::Dump(CDumpContext& dc) const
 #endif
 #endif //_DEBUG
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 int Views::CNotesView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
    if (CEditView::OnCreate(lpCreateStruct) == -1)
@@ -94,10 +74,6 @@ int Views::CNotesView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CNotesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
    m_pData = reinterpret_cast<CCodeNode*>(pHint);
@@ -118,10 +94,6 @@ void Views::CNotesView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CNotesView::OnEnChange()
 {
    if(!m_pData)

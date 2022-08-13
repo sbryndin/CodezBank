@@ -34,13 +34,14 @@ namespace Views
 using namespace Views;
 using namespace Utils;
 
-class CMainFrame : public CFrameWnd
+class CMainFrame : public CFrameWndEx
 {
 	DECLARE_DYNCREATE(CMainFrame)
   
 public:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+   virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = nullptr, CCreateContext* pContext = nullptr);
 	virtual ~CMainFrame();
 	CCodezBankView* GetRightPane();
    CLeftView* GetLeftPane();
@@ -54,9 +55,9 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	CStatusBar              m_wndStatusBar;
-	CToolBar                m_wndToolBar;
-   CWindowPosition         m_pos;
+   CMFCMenuBar             m_wndMenuBar;
+   CMFCToolBar             m_wndToolBar;
+   CMFCStatusBar           m_wndStatusBar;
    CMultiViewSplitterWnd   m_wndSplitter;
    CTitleBar               m_titleBar;
    CFindReplaceDialog*     m_pFindDlg;
@@ -71,6 +72,11 @@ protected:  // control bar embedded members
    afx_msg LRESULT OnIdleUpdateCmdUI(WPARAM wParam, LPARAM);
    afx_msg LRESULT OnFindReplace(WPARAM wparam, LPARAM lparam);
    afx_msg void OnEditFind();
+   afx_msg void OnApplicationLook(UINT id);
+   afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
+   afx_msg void OnViewCustomize();
+   afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
+   afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 };
 
 

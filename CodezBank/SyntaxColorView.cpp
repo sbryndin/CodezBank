@@ -43,20 +43,12 @@ using namespace ColorSyntax;
 
 IMPLEMENT_DYNCREATE(CSyntaxColorView, CRichEditView)
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CSyntaxColorView::CSyntaxColorView()
 {
    m_nPasteType = 0;
    m_bSyncCharFormat = m_bSyncParaFormat = TRUE;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CSyntaxColorView::~CSyntaxColorView()
 {
 }
@@ -67,20 +59,12 @@ BEGIN_MESSAGE_MAP(CSyntaxColorView, CRichEditView)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CSyntaxColorView::AssertValid() const
 {
 	CRichEditView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CSyntaxColorView::Dump(CDumpContext& dc) const
 {
 	CRichEditView::Dump(dc);
@@ -119,10 +103,6 @@ int ColorSyntax::CSyntaxColorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::SetDefaultStyle(void)
 {
    CHARFORMAT2 cf;
@@ -140,19 +120,11 @@ void ColorSyntax::CSyntaxColorView::SetDefaultStyle(void)
    GetRichEditCtrl().SetDefaultCharFormat (cf);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::AddKeyword(LPCTSTR lpKeyword)
 {
    m_mapKeywords[lpKeyword] = "Keyword";
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::SetEditText(LPCTSTR lpText)
 {
    CComPtr<ITextRange> pRange;
@@ -165,10 +137,6 @@ void ColorSyntax::CSyntaxColorView::SetEditText(LPCTSTR lpText)
    GetRichEditCtrl().EmptyUndoBuffer();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::OnEnChange()
 {
    CComPtr<ITextRange> pRange;
@@ -195,10 +163,6 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
    OnTextChanged(strText);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::Scan(CString strText)
 {
    IRegExpPtr regExp;
@@ -298,10 +262,6 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::ColorItem(int nStart, int nEnd, COLORREF clr)
 {
    CComPtr<ITextRange> pRange;
@@ -312,28 +272,16 @@ void ColorSyntax::CSyntaxColorView::ColorItem(int nStart, int nEnd, COLORREF clr
    pFont->SetForeColor(clr);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoComments(int nStart, int nEnd)
 {
    ColorItem(nStart, nEnd, RGB(0, 0x80, 0));
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::ResetToNormal(void)
 {
    ColorItem(0, GetRichEditCtrl().GetTextLength(), RGB(0,0,0));
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoKeywords(CString strWord, int nStart, int nEnd)
 {
    CString strValue;
@@ -343,19 +291,11 @@ void ColorSyntax::CSyntaxColorView::DoKeywords(CString strWord, int nStart, int 
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoStringLiterals(int nStart, int nEnd)
 {
    ColorItem(nStart, nEnd, RGB(0xA5, 0, 0));
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL ColorSyntax::CSyntaxColorView::PreCreateWindow(CREATESTRUCT& cs)
 {
    BOOL bRes = CRichEditView::PreCreateWindow(cs);

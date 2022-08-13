@@ -91,7 +91,6 @@ public:
       }
       m_nCount = nCount;
       return TRUE;
-
    }
 
    void OnIdleUpdate(CFrameWnd* pFrame, BOOL bDisableIfNoHndler)
@@ -119,7 +118,6 @@ public:
          pFrame->SetWindowText(title);
          m_sPrevTitle = m_sTitle;
       }
-
    }
 };
 

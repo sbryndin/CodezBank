@@ -39,7 +39,7 @@ public:
 #endif
 
 protected:
-   CSplitterWnd m_wndSplitter;
+   CSplitterWndEx m_wndSplitter;
 
    CCodeContainer();           // protected constructor used by dynamic creation
 	virtual ~CCodeContainer();

@@ -41,10 +41,6 @@ BEGIN_MESSAGE_MAP(CCodezBankApp, CWinAppEx)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankApp::CCodezBankApp()
 {
 	m_bHiColorIcons = TRUE;
@@ -54,10 +50,6 @@ CCodezBankApp::CCodezBankApp()
 // The one and only CCodezBankApp object
 CCodezBankApp theApp;
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL CCodezBankApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application

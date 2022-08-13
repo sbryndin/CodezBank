@@ -31,32 +31,20 @@
 
 using namespace Utils;
 
-IMPLEMENT_DYNAMIC(CMultiViewSplitterWnd, CSplitterWnd)
+IMPLEMENT_DYNAMIC(CMultiViewSplitterWnd, CSplitterWndEx)
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CMultiViewSplitterWnd::CMultiViewSplitterWnd()
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CMultiViewSplitterWnd::~CMultiViewSplitterWnd()
 {
 }
 
 
-BEGIN_MESSAGE_MAP(CMultiViewSplitterWnd, CSplitterWnd)
+BEGIN_MESSAGE_MAP(CMultiViewSplitterWnd, CSplitterWndEx)
 END_MESSAGE_MAP()
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CView* CMultiViewSplitterWnd::AddView(int nRow, int nCol, CRuntimeClass* pViewClass, LPCTSTR lpID)
 {
    CView* pTemp=NULL;
@@ -123,10 +111,6 @@ CView* CMultiViewSplitterWnd::AddView(int nRow, int nCol, CRuntimeClass* pViewCl
    return pNewView;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CView* CMultiViewSplitterWnd::ReplaceView(int nRow, int nCol, CView* pNewView)
 {
    CView* pOldView = DYNAMIC_DOWNCAST(CView, GetPane (nRow, nCol));
@@ -151,10 +135,6 @@ CView* CMultiViewSplitterWnd::ReplaceView(int nRow, int nCol, CView* pNewView)
    return pOldView;
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CMultiViewSplitterWnd::SwitchToView(int row, int col, LPCTSTR lpID)
 {
    CView* pTemp=NULL;

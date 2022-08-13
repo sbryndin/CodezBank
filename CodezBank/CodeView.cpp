@@ -34,19 +34,11 @@ using namespace Views;
 
 IMPLEMENT_DYNCREATE(CCodeView, CSyntaxColorView)
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodeView::CCodeView():
   m_pData(NULL)
 {
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodeView::~CCodeView()
 {
 }
@@ -58,30 +50,18 @@ BEGIN_MESSAGE_MAP(CCodeView, CSyntaxColorView)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodeView::AssertValid() const
 {
 	CSyntaxColorView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void CCodeView::Dump(CDumpContext& dc) const
 {
 	CSyntaxColorView::Dump(dc);
 }
 #endif
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 CCodezBankDoc* CCodeView::GetDocument() // non-debug version is inline
 {
    ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CCodezBankDoc)));
@@ -89,10 +69,6 @@ CCodezBankDoc* CCodeView::GetDocument() // non-debug version is inline
 }
 #endif //_DEBUG
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnInitialUpdate()
 {
    CSyntaxColorView::OnInitialUpdate();
@@ -174,19 +150,11 @@ void Views::CCodeView::OnInitialUpdate()
    AddKeyword("wchar_t");
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 BOOL Views::CCodeView::PreCreateWindow(CREATESTRUCT& cs)
 {
    return CSyntaxColorView::PreCreateWindow(cs);
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
    m_pData = reinterpret_cast<CCodeNode*>(pHint);
@@ -211,10 +179,6 @@ void Views::CCodeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnTextChanged(LPCTSTR lpText)
 {
    if(!m_pData)
@@ -232,29 +196,16 @@ void Views::CCodeView::OnTextChanged(LPCTSTR lpText)
    }
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnEditUndo()
 {
    GetRichEditCtrl().Undo();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnEditRedo()
 {
    GetRichEditCtrl().Redo();
 }
 
-
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 HMENU Views::CCodeView::GetContextMenu(WORD, LPOLEOBJECT, CHARRANGE* )
 {
 	CMenu menuText;
@@ -264,10 +215,6 @@ HMENU Views::CCodeView::GetContextMenu(WORD, LPOLEOBJECT, CHARRANGE* )
 	return pMenuPopup->Detach();
 }
 
-///////////////////////////////////////////////
-///
-/// 
-///////////////////////////////////////////////
 void Views::CCodeView::OnSize(UINT nType, int cx, int cy)
 {
    CSyntaxColorView::OnSize(nType, cx, cy);
