@@ -45,12 +45,19 @@
 // See CodezBank.cpp for the implementation of this class
 //
 
-class CCodezBankApp : public CWinApp
+class CCodezBankApp : public CWinAppEx
 {
 public:
 	CCodezBankApp();
 
 	virtual BOOL InitInstance();
+   virtual int ExitInstance();
+   virtual void PreLoadState();
+   virtual void LoadCustomState();
+   virtual void SaveCustomState();
+
+   UINT  m_nAppLook;
+   BOOL  m_bHiColorIcons;
 
 protected:
 	
