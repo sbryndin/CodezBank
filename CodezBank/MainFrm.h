@@ -28,13 +28,12 @@
 
 namespace Views
 {
-   //class CCodezBankView;
+   class CCodezBankView;
    class CLeftView;
 };
 using namespace Views;
 using namespace Utils;
 
-class CCodezBankView;
 
 class CMainFrame : public CFrameWndEx
 {

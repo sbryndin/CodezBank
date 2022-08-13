@@ -30,7 +30,7 @@
 #define new DEBUG_NEW
 #endif
 
-//using namespace Views;
+using namespace Views;
 
 bool CCodezBankView::m_bSortOrder = false;
 

@@ -27,7 +27,7 @@
 #pragma once
 using namespace Document;
 
-//namespace Views{
+namespace Views{
 
 class CCodezBankView : public CListView
 {
@@ -80,4 +80,4 @@ inline CCodezBankDoc* CCodezBankView::GetDocument() const
    { return reinterpret_cast<CCodezBankDoc*>(m_pDocument); }
 #endif
 
-//};
+};
