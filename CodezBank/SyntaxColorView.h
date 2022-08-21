@@ -49,20 +49,19 @@ protected:
    CSyntaxColorView();           // protected constructor used by dynamic creation
    virtual ~CSyntaxColorView();
    virtual void OnTextChanged(LPCTSTR lpText) {} // override in your code
+   virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
    void SetEditText(LPCTSTR lpText);
-   void SetDefaultStyle(void);
-   
+   void SetDefaultStyle(void);   
    void Scan(CString lpText);
    void ResetToNormal(void);
    void ColorItem(int nStart, int nEnd, COLORREF clr);
    void DoComments(int nStart, int nEnd);
    void DoKeywords(CString strWord, int nStart, int nEnd);
-   void DoStringLiterals(int nStart, int nEnd);
-   
+   void DoStringLiterals(int nStart, int nEnd);   
 
 	DECLARE_MESSAGE_MAP()
    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
    afx_msg void OnEnChange();
-   virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 };
 };

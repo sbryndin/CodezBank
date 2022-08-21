@@ -26,14 +26,17 @@
 // Normal text.
 //
 // History:
+// 
+// 08/21/2022 Removed VBScript regular expressions and replaced it with
+// std::regex
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "CodezBank.h"
 #include "SyntaxColorView.h"
 
-#import "vbscript.dll" tlbid(2)
-using namespace VBScript_RegExp_10;
+//#import "vbscript.dll" tlbid(2)
+//using namespace VBScript_RegExp_10;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -144,7 +147,7 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
 
    long count;
    m_pTomDoc->Freeze(&count);
-   m_pTomDoc->Undo( tomSuspend,NULL);
+   m_pTomDoc->Undo( tomSuspend, nullptr);
 
    SetDefaultStyle();
    ResetToNormal();
@@ -165,17 +168,39 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
 
 void ColorSyntax::CSyntaxColorView::Scan(CString strText)
 {
-   IRegExpPtr regExp;
-   HRESULT hr = regExp.CreateInstance(__uuidof(RegExp));
-   regExp->Global = VARIANT_TRUE;
-   regExp->IgnoreCase = VARIANT_FALSE;
+   //IRegExpPtr regExp;
+   //HRESULT hr = regExp.CreateInstance(__uuidof(RegExp));
+   //regExp->Global = VARIANT_TRUE;
+   //regExp->IgnoreCase = VARIANT_FALSE;
 
    // Word pattern
-   regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
-   BSTR bstrText = strText.AllocSysString();
-   IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
+   //regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
+   //BSTR bstrText = strText.AllocSysString();
+   //IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
 
-   int nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
+    
+   std::regex rgx("[#a-zA-Z0-9_]*\\b");
+   std::cmatch match;
+   std::regex_constants::match_flag_type flags = std::regex_constants::match_default;
+   const char* tgt = strText.GetBuffer();
+   const char* first = tgt;
+   const char* last = tgt + strlen(tgt);
+
+   while (std::regex_search(first, last, match, rgx, flags))
+   {
+      // show match, move past it
+      CString strRetMatch = match.str().c_str();
+      first += match.position() + match.length();
+      flags = flags | std::regex_constants::match_not_bol;
+
+      size_t nEnd = first - tgt;
+      size_t nStart = nEnd - strRetMatch.GetLength();
+
+      DoKeywords(strRetMatch, (int)nStart, (int)nEnd);
+   }
+   
+
+   /*int nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
    for (int i = 0; i < nCount; i++)
    {
       IMatchPtr MatchPtr = MatchesPtr->Item[i];
@@ -190,10 +215,28 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       DoKeywords(CString(b), nStart, nStart+nLen);
 
       ::SysFreeString(b);
-   }
+   }*/
   
    // Quoted string literal pattern
-   regExp->Pattern = _bstr_t("\"(\\.|[^\\\"])*\"");
+   rgx = "\"(\\.|[^\\\"])*\"";
+   tgt = strText.GetBuffer();
+   first = tgt;
+   last = tgt + strlen(tgt);
+   while (std::regex_search(first, last, match, rgx, flags))
+   {
+      // show match, move past it
+      CString strRetMatch = match.str().c_str();
+      first += match.position() + match.length();
+      flags = flags | std::regex_constants::match_not_bol;
+
+      size_t nEnd = first - tgt;
+      size_t nStart = nEnd - strRetMatch.GetLength();
+
+      DoStringLiterals((int)nStart, (int)nEnd);
+   }
+
+
+   /*regExp->Pattern = _bstr_t("\"(\\.|[^\\\"])*\"");
    MatchesPtr = regExp->Execute(bstrText);
    nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
    for (int i = 0; i < nCount; i++)
@@ -210,7 +253,7 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       DoStringLiterals(nStart, nStart+nLen);
 
       ::SysFreeString(b);
-   }
+   }*/
 
    /*regExp->Pattern = _bstr_t("<(\\.|[^\\<])*>");
    MatchesPtr = regExp->Execute(bstrText);
@@ -231,9 +274,9 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       ::SysFreeString(b);
    }*/
 
-   ::SysFreeString(bstrText);
+   //::SysFreeString(bstrText);
 
-   regExp=0;
+   //regExp=0;
 
    int nPos = strText.Find("/*", 0);
    while(nPos > -1)
