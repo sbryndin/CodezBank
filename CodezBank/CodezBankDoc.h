@@ -19,6 +19,9 @@
 // Author: steveb
 //
 // History:
+// 
+// 08/22/2022	Added code to save the tree state (expanded/contracted nodes)
+//             into the file
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
