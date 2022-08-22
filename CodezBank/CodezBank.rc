@@ -305,6 +305,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "Load last file on startup",IDC_CHECK_LOAD_LAST_FILE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,344,10
+    COMBOBOX        IDC_COMBO_APPSKINS,68,42,198,108,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Application Skin:",IDC_STATIC,12,44,53,8
 END
 
 

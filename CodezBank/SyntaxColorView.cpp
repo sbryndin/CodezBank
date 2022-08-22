@@ -34,9 +34,8 @@
 #include "stdafx.h"
 #include "CodezBank.h"
 #include "SyntaxColorView.h"
+#include "SyntaxParser.h"
 
-//#import "vbscript.dll" tlbid(2)
-//using namespace VBScript_RegExp_10;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -147,7 +146,7 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
 
    long count;
    m_pTomDoc->Freeze(&count);
-   m_pTomDoc->Undo( tomSuspend, nullptr);
+   m_pTomDoc->Undo( tomSuspend, NULL);
 
    SetDefaultStyle();
    ResetToNormal();
@@ -168,128 +167,34 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
 
 void ColorSyntax::CSyntaxColorView::Scan(CString strText)
 {
-   //IRegExpPtr regExp;
-   //HRESULT hr = regExp.CreateInstance(__uuidof(RegExp));
-   //regExp->Global = VARIANT_TRUE;
-   //regExp->IgnoreCase = VARIANT_FALSE;
-
-   // Word pattern
-   //regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
-   //BSTR bstrText = strText.AllocSysString();
-   //IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
-   
    // Happens if the code is empty
    CString strTemp = strText;
    strTemp.Trim();
 
    if (strTemp.IsEmpty())
       return;
-    
-   std::regex rgx("[#a-zA-Z0-9_]*\\b");
-   std::cmatch match;
-   std::regex_constants::match_flag_type flags = std::regex_constants::match_default;
-   const char* tgt = strText.GetBuffer();
-   const char* first = tgt;
-   const char* last = tgt + strlen(tgt);
 
-   while (std::regex_search(first, last, match, rgx, flags))
+   VecIdentifiers vecMatches;
+   CSyntaxParser parser;
+
+   if (parser.GetWords(strText, vecMatches))
    {
-      // show match, move past it
-      CString strRetMatch = match.str().c_str();
-      first += match.position() + match.length();
-      flags = flags | std::regex_constants::match_not_bol;
-
-      size_t nEnd = first - tgt;
-      size_t nStart = nEnd - strRetMatch.GetLength();
-
-      if (nStart == nEnd)
-         break;
-
-      DoKeywords(strRetMatch, (int)nStart, (int)nEnd);
+      for (SyntaxIdentifier identif : vecMatches)
+      {
+         DoKeywords(identif.strWord, identif.nStart, identif.nEnd);
+      }
    }
-   
+   vecMatches.clear();
 
-   /*int nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
-   for (int i = 0; i < nCount; i++)
+   if (parser.GetQuotedStrings(strText, vecMatches))
    {
-      IMatchPtr MatchPtr = MatchesPtr->Item[i];
-      BSTR b;
-      MatchPtr->get_Value(&b);
-      if(!b)
-         continue;
-
-      int nStart = MatchPtr->GetFirstIndex();
-      int nLen = MatchPtr->GetLength();
-
-      DoKeywords(CString(b), nStart, nStart+nLen);
-
-      ::SysFreeString(b);
-   }*/
+      for (SyntaxIdentifier identif : vecMatches)
+      {
+         DoStringLiterals(identif.nStart, identif.nEnd);
+      }
+   }
   
-   // Quoted string literal pattern
-   rgx = "\"(\\.|[^\\\"])*\"";
-   tgt = strText.GetBuffer();
-   first = tgt;
-   last = tgt + strlen(tgt);
-   while (std::regex_search(first, last, match, rgx, flags))
-   {
-      // show match, move past it
-      CString strRetMatch = match.str().c_str();
-      first += match.position() + match.length();
-      flags = flags | std::regex_constants::match_not_bol;
-
-      size_t nEnd = first - tgt;
-      size_t nStart = nEnd - strRetMatch.GetLength();
-
-      if (nStart == nEnd)
-         break;
-
-      DoStringLiterals((int)nStart, (int)nEnd);
-   }
-
-
-   /*regExp->Pattern = _bstr_t("\"(\\.|[^\\\"])*\"");
-   MatchesPtr = regExp->Execute(bstrText);
-   nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
-   for (int i = 0; i < nCount; i++)
-   {
-      IMatchPtr MatchPtr = MatchesPtr->Item[i];
-      BSTR b;
-      MatchPtr->get_Value(&b);
-      if(!b)
-         continue;
-
-      int nStart = MatchPtr->GetFirstIndex();
-      int nLen = MatchPtr->GetLength();
-
-      DoStringLiterals(nStart, nStart+nLen);
-
-      ::SysFreeString(b);
-   }*/
-
-   /*regExp->Pattern = _bstr_t("<(\\.|[^\\<])*>");
-   MatchesPtr = regExp->Execute(bstrText);
-   nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
-   for (int i = 0; i < nCount; i++)
-   {
-      IMatchPtr MatchPtr = MatchesPtr->Item[i];
-      BSTR b;
-      MatchPtr->get_Value(&b);
-      if(!b)
-         continue;
-
-      int nStart = MatchPtr->GetFirstIndex();
-      int nLen = MatchPtr->GetLength();
-
-      DoStringLiterals(nStart, nStart+nLen);
-
-      ::SysFreeString(b);
-   }*/
-
-   //::SysFreeString(bstrText);
-
-   //regExp=0;
-
+   // Comments C and C++
    int nPos = strText.Find("/*", 0);
    while(nPos > -1)
    {

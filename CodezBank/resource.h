@@ -28,6 +28,8 @@
 #define IDB_HEADERPAT_4                 142
 #define IDB_OPTIONS                     143
 #define IDC_CHECK_LOAD_LAST_FILE        1000
+#define IDC_COMBO1                      1001
+#define IDC_COMBO_APPSKINS              1001
 #define ID_CODE_NEWFOLDER               32771
 #define ID_VIEW_UPONELEVEL              32772
 #define ID_CODE_NEWTOPMOSTFOLDER        32773
@@ -49,7 +51,6 @@
 #define ID_APPLICATIONLOOK_WINDOWS7     32789
 #define ID_TOOLS_OPTIONS                32790
 #define ID_FILE_OPTIONS                 32791
-#define ID_FILE_OP                      32792
 #define ID_INDICATOR_SCIP_COUNT         59142
 #define ID_INDICATOR_SNIP_COUNT         59142
 
@@ -59,7 +60,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        144
 #define _APS_NEXT_COMMAND_VALUE         32793
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           102
 #endif
 #endif

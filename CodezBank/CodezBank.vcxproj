@@ -224,6 +224,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SyntaxColorView.cpp" />
+    <ClCompile Include="SyntaxParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppPropSheet.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyntaxColorView.h" />
+    <ClInclude Include="SyntaxParser.h" />
     <ClInclude Include="TitleBar.h" />
     <ClInclude Include="undo.h" />
     <ClInclude Include="wndpos.h" />
