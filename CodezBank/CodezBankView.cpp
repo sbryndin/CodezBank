@@ -281,29 +281,7 @@ void CCodezBankView::OnUpdateEditDelete(CCmdUI *pCmdUI)
 
 void CCodezBankView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-   if (point.x == -1 && point.y == -1)
-   {
-      //keystroke invocation
-      CRect rect;
-      GetClientRect(rect);
-      ClientToScreen(rect);
-
-      point = rect.TopLeft();
-      point.Offset(5, 5);
-   }
-
-   CMenu menu;
-   VERIFY(menu.LoadMenu(IDR_TREE_CONTEXT));
-
-   CMenu* pPopup = menu.GetSubMenu(0);
-   ASSERT(pPopup != NULL);
-   CWnd* pWndPopupOwner = this;
-
-   while (pWndPopupOwner->GetStyle() & WS_CHILD)
-      pWndPopupOwner = pWndPopupOwner->GetParent();
-
-   pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
-      pWndPopupOwner);		
+   theApp.GetContextMenuManager()->ShowPopupMenu(IDR_TREE_CONTEXT, point.x, point.y, this, TRUE);
 }
 
 int CALLBACK CCodezBankView::CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)

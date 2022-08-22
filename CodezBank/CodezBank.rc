@@ -293,8 +293,8 @@ CAPTION "About CodezBank"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "CodezBank Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2008",IDC_STATIC,40,25,119,8
+    LTEXT           "CodezBank Version 2.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2008 - 2022",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
 END
 
@@ -305,7 +305,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "Load last file on startup",IDC_CHECK_LOAD_LAST_FILE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,344,10
-    COMBOBOX        IDC_COMBO_APPSKINS,68,42,198,108,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_APPSKINS,68,42,198,108,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Application Skin:",IDC_STATIC,12,44,53,8
 END
 
@@ -316,8 +316,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 2,0,0,1
+ PRODUCTVERSION 2,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -332,14 +332,14 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "TODO: <File description>"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "CompanyName", "CodezBank"
+            VALUE "FileDescription", "Code snippet management app"
+            VALUE "FileVersion", "2.0.0.1"
             VALUE "InternalName", "CodezBank.exe"
-            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "LegalCopyright", "(c) steveb.  All rights reserved."
             VALUE "OriginalFilename", "CodezBank.exe"
-            VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductName", "CodezBank"
+            VALUE "ProductVersion", "2.0.0.1"
         END
     END
     BLOCK "VarFileInfo"
@@ -386,6 +386,11 @@ BEGIN
     0
 END
 
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -403,6 +408,8 @@ STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "CodezBank\n\nCodezBank\nCodezBank Files (*.codezbank)\n.codezbank\nCodezBank.Document\nCodezBank.Document"
     IDS_RICHED_LOAD_FAIL    "Could not load the RichEdit control DLL.  The file RICHED32.DLL may be missing or corrupt."
+    IDS_EDIT_MENU           "Edit"
+    IDS_TREE_MENU           "Tree Edit"
 END
 
 STRINGTABLE

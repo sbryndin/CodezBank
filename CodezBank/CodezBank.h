@@ -46,6 +46,7 @@
    while(list.GetCount() > 0) \
       delete list.RemoveHead(); 
 
+
 // CCodezBankApp:
 // See CodezBank.cpp for the implementation of this class
 //

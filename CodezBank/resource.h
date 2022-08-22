@@ -13,7 +13,9 @@
 #define IDR_CodezBankTYPE               129
 #define IDS_RICHED_LOAD_FAIL            129
 #define IDI_FOLDER                      130
+#define IDS_EDIT_MENU                   130
 #define IDI_CODE                        131
+#define IDS_TREE_MENU                   131
 #define IDI_CODE2                       132
 #define IDR_MENU1                       133
 #define IDR_TREE_CONTEXT                133
@@ -28,7 +30,6 @@
 #define IDB_HEADERPAT_4                 142
 #define IDB_OPTIONS                     143
 #define IDC_CHECK_LOAD_LAST_FILE        1000
-#define IDC_COMBO1                      1001
 #define IDC_COMBO_APPSKINS              1001
 #define ID_CODE_NEWFOLDER               32771
 #define ID_VIEW_UPONELEVEL              32772
@@ -58,7 +59,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        145
 #define _APS_NEXT_COMMAND_VALUE         32793
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           102

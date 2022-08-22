@@ -160,6 +160,14 @@ int CCodezBankApp::ExitInstance()
 
 void CCodezBankApp::PreLoadState()
 {
+	BOOL bNameValid;
+	CString strName;
+	bNameValid = strName.LoadString(IDS_EDIT_MENU);
+	ASSERT(bNameValid);
+	GetContextMenuManager()->AddMenu(strName, IDR_TEXT_POPUP);
+	bNameValid = strName.LoadString(IDS_TREE_MENU);
+	ASSERT(bNameValid);
+	GetContextMenuManager()->AddMenu(strName, IDR_TREE_CONTEXT);
 }
 
 void CCodezBankApp::LoadCustomState()

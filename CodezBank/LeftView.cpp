@@ -399,7 +399,7 @@ void CLeftView::OnUpdateEditDelete(CCmdUI *pCmdUI)
 
 void CLeftView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-   if (point.x == -1 && point.y == -1)
+   /*if (point.x == -1 && point.y == -1)
    {
       //keystroke invocation
       CRect rect;
@@ -422,7 +422,8 @@ void CLeftView::OnContextMenu(CWnd* pWnd, CPoint point)
 
    pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
       pWndPopupOwner);		
-
+      */
+   theApp.GetContextMenuManager()->ShowPopupMenu(IDR_TREE_CONTEXT, point.x, point.y, this, TRUE);
 }
 
 void Views::CLeftView::OnRButtonDown(UINT nFlags, CPoint point)

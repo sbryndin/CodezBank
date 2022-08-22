@@ -41,15 +41,19 @@ namespace Dialogs
 		// Dialog Data
 		enum { IDD = IDD_PROPPAGE_GENERAL };
 		CDlgBanner m_wndBanner;
+		CComboBox m_cboSkins;
 		BOOL m_bLoadLastFile;
+
+	private:
+		int m_nOldSel;
 
 	protected:
 		virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 		DECLARE_MESSAGE_MAP()
-			afx_msg void OnSize(UINT nType, int cx, int cy);
+		afx_msg void OnSize(UINT nType, int cx, int cy);
 		afx_msg void OnClickedCheckLoadLastFile();
-
+		afx_msg void OnSelchangeComboAppskins();
 	};
 
 }
