@@ -19,9 +19,6 @@
 // Author: steveb
 //
 // History:
-// 
-// 08/13/22 Added CMFCHeaderCtrl member to take advantage of skinned CListView
-//          and CListCtrl.
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -42,8 +39,6 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual ~CCodezBankView();
 
-   virtual CMFCHeaderCtrl& GetHeaderCtrl() { return m_wndHeader; }
-
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -53,7 +48,6 @@ protected:
    CImageList  m_Image;
    CImageList  m_ImageSm;
    UINT        m_nMask;
-   CMFCHeaderCtrl m_wndHeader;
 
    CCodezBankView();
    virtual void OnInitialUpdate(); // called first time after construct

@@ -34,22 +34,30 @@
 using namespace Views;
 using namespace Document;
 
-BEGIN_MESSAGE_MAP(CCodezBankApp, CWinAppEx)
+BEGIN_MESSAGE_MAP(CCodezBankApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, &CCodezBankApp::OnAppAbout)
 	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
+	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CCodezBankApp::CCodezBankApp()
 {
-	m_bHiColorIcons = TRUE;
-	m_nAppLook = 0;
+	// TODO: add construction code here,
+	// Place all significant initialization in InitInstance
 }
 
 // The one and only CCodezBankApp object
 CCodezBankApp theApp;
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 BOOL CCodezBankApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
@@ -62,7 +70,7 @@ BOOL CCodezBankApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
-	CWinAppEx::InitInstance();
+	CWinApp::InitInstance();
 
 	// Initialize OLE libraries
 	if (!AfxOleInit())
@@ -79,8 +87,6 @@ BOOL CCodezBankApp::InitInstance()
 		return FALSE;
 	}
 
-	EnableTaskbarInteraction();
-
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
 	// of your final executable, you should remove from the following
@@ -90,17 +96,6 @@ BOOL CCodezBankApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("ObjectiveMarkets"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
-
-	InitContextMenuManager();
-
-	InitKeyboardManager();
-
-	InitTooltipManager();
-	CMFCToolTipInfo ttParams;
-	ttParams.m_bVislManagerTheme = TRUE;
-	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
-		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
-
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views
 	CSingleDocTemplate* pDocTemplate;
@@ -138,26 +133,10 @@ BOOL CCodezBankApp::InitInstance()
 	return TRUE;
 }
 
-int CCodezBankApp::ExitInstance()
-{
-	AfxOleTerm(FALSE);
-	return CWinAppEx::ExitInstance();
-}
-
-void CCodezBankApp::PreLoadState()
-{
-}
-
-void CCodezBankApp::LoadCustomState()
-{
-}
-
-void CCodezBankApp::SaveCustomState()
-{
-}
 
 
 // CAboutDlg dialog used for App About
+
 class CAboutDlg : public CDialog
 {
 public:

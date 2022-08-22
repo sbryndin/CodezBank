@@ -11,7 +11,7 @@
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 #endif
-/*
+
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows XP or later.
@@ -29,13 +29,6 @@
 #ifndef _WIN32_IE			// Allow use of features specific to IE 6.0 or later.
 #define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
 #endif
-*/
-// Including SDKDDKVer.h defines the highest available Windows platform.
-
-// If you wish to build your application for a previous Windows platform, include WinSDKVer.h and
-// set the _WIN32_WINNT macro to the platform you wish to support before including SDKDDKVer.h.
-
-#include <SDKDDKVer.h>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
@@ -45,8 +38,10 @@
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 #include <afxcview.h>
+
+
 #include <afxdisp.h>        // MFC Automation classes
-#include <afxcontrolbars.h>     // MFC support for ribbons and control bars
+
 
 
 #ifndef _AFX_NO_OLE_SUPPORT
@@ -57,9 +52,6 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 #include <afx.h>
 #include <afxrich.h>
-
-#include <regex>
-
 
 #ifdef _UNICODE
 #if defined _M_IX86

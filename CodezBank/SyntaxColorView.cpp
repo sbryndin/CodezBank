@@ -26,17 +26,14 @@
 // Normal text.
 //
 // History:
-// 
-// 08/21/2022 Removed VBScript regular expressions and replaced it with
-// std::regex
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "CodezBank.h"
 #include "SyntaxColorView.h"
 
-//#import "vbscript.dll" tlbid(2)
-//using namespace VBScript_RegExp_10;
+#import "vbscript.dll" tlbid(2)
+using namespace VBScript_RegExp_10;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,12 +43,20 @@ using namespace ColorSyntax;
 
 IMPLEMENT_DYNCREATE(CSyntaxColorView, CRichEditView)
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CSyntaxColorView::CSyntaxColorView()
 {
    m_nPasteType = 0;
    m_bSyncCharFormat = m_bSyncParaFormat = TRUE;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CSyntaxColorView::~CSyntaxColorView()
 {
 }
@@ -62,12 +67,20 @@ BEGIN_MESSAGE_MAP(CSyntaxColorView, CRichEditView)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CSyntaxColorView::AssertValid() const
 {
 	CRichEditView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CSyntaxColorView::Dump(CDumpContext& dc) const
 {
 	CRichEditView::Dump(dc);
@@ -106,6 +119,10 @@ int ColorSyntax::CSyntaxColorView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::SetDefaultStyle(void)
 {
    CHARFORMAT2 cf;
@@ -123,11 +140,19 @@ void ColorSyntax::CSyntaxColorView::SetDefaultStyle(void)
    GetRichEditCtrl().SetDefaultCharFormat (cf);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::AddKeyword(LPCTSTR lpKeyword)
 {
    m_mapKeywords[lpKeyword] = "Keyword";
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::SetEditText(LPCTSTR lpText)
 {
    CComPtr<ITextRange> pRange;
@@ -140,6 +165,10 @@ void ColorSyntax::CSyntaxColorView::SetEditText(LPCTSTR lpText)
    GetRichEditCtrl().EmptyUndoBuffer();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::OnEnChange()
 {
    CComPtr<ITextRange> pRange;
@@ -147,7 +176,7 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
 
    long count;
    m_pTomDoc->Freeze(&count);
-   m_pTomDoc->Undo( tomSuspend, nullptr);
+   m_pTomDoc->Undo( tomSuspend,NULL);
 
    SetDefaultStyle();
    ResetToNormal();
@@ -166,47 +195,23 @@ void ColorSyntax::CSyntaxColorView::OnEnChange()
    OnTextChanged(strText);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::Scan(CString strText)
 {
-   //IRegExpPtr regExp;
-   //HRESULT hr = regExp.CreateInstance(__uuidof(RegExp));
-   //regExp->Global = VARIANT_TRUE;
-   //regExp->IgnoreCase = VARIANT_FALSE;
+   IRegExpPtr regExp;
+   HRESULT hr = regExp.CreateInstance(__uuidof(RegExp));
+   regExp->Global = VARIANT_TRUE;
+   regExp->IgnoreCase = VARIANT_FALSE;
 
    // Word pattern
-   //regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
-   //BSTR bstrText = strText.AllocSysString();
-   //IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
-   
-   // Happens if the code is empty
-   CString strTemp = strText;
-   strTemp.Trim();
+   regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
+   BSTR bstrText = strText.AllocSysString();
+   IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
 
-   if (strTemp.IsEmpty())
-      return;
-    
-   std::regex rgx("[#a-zA-Z0-9_]*\\b");
-   std::cmatch match;
-   std::regex_constants::match_flag_type flags = std::regex_constants::match_default;
-   const char* tgt = strText.GetBuffer();
-   const char* first = tgt;
-   const char* last = tgt + strlen(tgt);
-
-   while (std::regex_search(first, last, match, rgx, flags))
-   {
-      // show match, move past it
-      CString strRetMatch = match.str().c_str();
-      first += match.position() + match.length();
-      flags = flags | std::regex_constants::match_not_bol;
-
-      size_t nEnd = first - tgt;
-      size_t nStart = nEnd - strRetMatch.GetLength();
-
-      DoKeywords(strRetMatch, (int)nStart, (int)nEnd);
-   }
-   
-
-   /*int nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
+   int nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
    for (int i = 0; i < nCount; i++)
    {
       IMatchPtr MatchPtr = MatchesPtr->Item[i];
@@ -221,28 +226,10 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       DoKeywords(CString(b), nStart, nStart+nLen);
 
       ::SysFreeString(b);
-   }*/
+   }
   
    // Quoted string literal pattern
-   rgx = "\"(\\.|[^\\\"])*\"";
-   tgt = strText.GetBuffer();
-   first = tgt;
-   last = tgt + strlen(tgt);
-   while (std::regex_search(first, last, match, rgx, flags))
-   {
-      // show match, move past it
-      CString strRetMatch = match.str().c_str();
-      first += match.position() + match.length();
-      flags = flags | std::regex_constants::match_not_bol;
-
-      size_t nEnd = first - tgt;
-      size_t nStart = nEnd - strRetMatch.GetLength();
-
-      DoStringLiterals((int)nStart, (int)nEnd);
-   }
-
-
-   /*regExp->Pattern = _bstr_t("\"(\\.|[^\\\"])*\"");
+   regExp->Pattern = _bstr_t("\"(\\.|[^\\\"])*\"");
    MatchesPtr = regExp->Execute(bstrText);
    nCount = MatchesPtr.GetInterfacePtr()? MatchesPtr->Count: 0;
    for (int i = 0; i < nCount; i++)
@@ -259,7 +246,7 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       DoStringLiterals(nStart, nStart+nLen);
 
       ::SysFreeString(b);
-   }*/
+   }
 
    /*regExp->Pattern = _bstr_t("<(\\.|[^\\<])*>");
    MatchesPtr = regExp->Execute(bstrText);
@@ -280,9 +267,9 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       ::SysFreeString(b);
    }*/
 
-   //::SysFreeString(bstrText);
+   ::SysFreeString(bstrText);
 
-   //regExp=0;
+   regExp=0;
 
    int nPos = strText.Find("/*", 0);
    while(nPos > -1)
@@ -311,6 +298,10 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
    }
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::ColorItem(int nStart, int nEnd, COLORREF clr)
 {
    CComPtr<ITextRange> pRange;
@@ -321,16 +312,28 @@ void ColorSyntax::CSyntaxColorView::ColorItem(int nStart, int nEnd, COLORREF clr
    pFont->SetForeColor(clr);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoComments(int nStart, int nEnd)
 {
    ColorItem(nStart, nEnd, RGB(0, 0x80, 0));
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::ResetToNormal(void)
 {
    ColorItem(0, GetRichEditCtrl().GetTextLength(), RGB(0,0,0));
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoKeywords(CString strWord, int nStart, int nEnd)
 {
    CString strValue;
@@ -340,11 +343,19 @@ void ColorSyntax::CSyntaxColorView::DoKeywords(CString strWord, int nStart, int 
    }
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void ColorSyntax::CSyntaxColorView::DoStringLiterals(int nStart, int nEnd)
 {
    ColorItem(nStart, nEnd, RGB(0xA5, 0, 0));
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 BOOL ColorSyntax::CSyntaxColorView::PreCreateWindow(CREATESTRUCT& cs)
 {
    BOOL bRes = CRichEditView::PreCreateWindow(cs);

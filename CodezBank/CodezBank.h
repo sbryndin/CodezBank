@@ -19,9 +19,6 @@
 // Author: steveb
 //
 // History:
-// 
-// 08/12/22 Changed bas app class from CWinApp to CWinAppEx to take advantage
-//          of new MFC features.
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -48,19 +45,12 @@
 // See CodezBank.cpp for the implementation of this class
 //
 
-class CCodezBankApp : public CWinAppEx
+class CCodezBankApp : public CWinApp
 {
 public:
 	CCodezBankApp();
 
 	virtual BOOL InitInstance();
-   virtual int ExitInstance();
-   virtual void PreLoadState();
-   virtual void LoadCustomState();
-   virtual void SaveCustomState();
-
-   UINT  m_nAppLook;
-   BOOL  m_bHiColorIcons;
 
 protected:
 	

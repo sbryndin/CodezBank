@@ -37,9 +37,9 @@ using namespace Views;
 
 static int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);
 
-IMPLEMENT_DYNCREATE(CMainFrame, CFrameWndEx)
+IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
-BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
+BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_UPDATE_COMMAND_UI_RANGE(AFX_ID_VIEW_MINIMUM, AFX_ID_VIEW_MAXIMUM, &CMainFrame::OnUpdateViewStyles)
 	ON_COMMAND_RANGE(AFX_ID_VIEW_MINIMUM, AFX_ID_VIEW_MAXIMUM, &CMainFrame::OnViewStyle)
@@ -47,11 +47,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
    ON_MESSAGE(WM_IDLEUPDATECMDUI, OnIdleUpdateCmdUI)
    ON_REGISTERED_MESSAGE(WM_FINDREPLACE, OnFindReplace)
    ON_COMMAND(ID_EDIT_FIND, &CMainFrame::OnEditFind)
-	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
-	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
-	ON_WM_SETTINGCHANGE()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -68,89 +63,81 @@ static UINT indicators[] =
 /// 
 ///////////////////////////////////////////////
 CMainFrame::CMainFrame():
-  //m_pos(SECTION_SETTINGS, KEY_MAIN_WND)
-  m_pFindDlg(NULL)
+  m_pos(SECTION_SETTINGS, KEY_MAIN_WND)
+, m_pFindDlg(NULL)
 {
    static UINT indicators[] = { ID_TITLE_MOD };
    m_titleBar.SetIndicators(indicators, 
       sizeof(indicators)/sizeof(indicators[0]));
-
-	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CMainFrame::~CMainFrame()
 {
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
+	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	BOOL bNameValid;
-
-	if (!m_wndMenuBar.Create(this))
-	{
-		TRACE0("Failed to create menubar\n");
-		return -1;      // fail to create
-	}
-
-	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY);
-
-	// prevent the menu bar from taking the focus on activation
-	CMFCPopupMenu::SetForceMenuFocus(FALSE);
-
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
-		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
+	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
+		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+		! m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	CString strToolBarName;
-	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
-	ASSERT(bNameValid);
-	m_wndToolBar.SetWindowText(strToolBarName);
+   // Set up hot bar image lists.
+   CImageList imageList;
+   CBitmap    bitmap;
 
-	CString strCustomize;
-	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
-	ASSERT(bNameValid);
-	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+   // Create and set the normal toolbar image list.
+   bitmap.LoadBitmap(IDB_TOOLBAR_COLD);
+   imageList.Create(16, 15, ILC_COLORDDB|ILC_MASK, 16, 1);
+   imageList.Add(&bitmap, RGB(255,0,255));
+   m_wndToolBar.SendMessage(TB_SETIMAGELIST, 0, (LPARAM)imageList.m_hImageList);
+   imageList.Detach();
+   bitmap.Detach();
 
-	if (!m_wndStatusBar.Create(this))
+   // Create and set the hot toolbar image list.
+   bitmap.LoadBitmap(IDB_TOOLBAR_HOT);
+   imageList.Create(16, 15, ILC_COLORDDB|ILC_MASK, 16, 1);
+   imageList.Add(&bitmap, RGB(255,0,255));
+   m_wndToolBar.SendMessage(TB_SETHOTIMAGELIST, 0, (LPARAM)imageList.m_hImageList);
+   imageList.Detach();
+   bitmap.Detach();
+
+	if(!m_wndStatusBar.Create(this) ||
+		!m_wndStatusBar.SetIndicators(indicators,
+		  sizeof(indicators)/sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT));
 
-	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
-	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
+	// TODO: Delete these three lines if you don't want the toolbar to be dockable
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndMenuBar);
-	DockPane(&m_wndToolBar);
+	DockControlBar(&m_wndToolBar);
 
-
-	// enable Visual Studio 2005 style docking window behavior
-	CDockingManager::SetDockingMode(DT_SMART);
-	// enable Visual Studio 2005 style docking window auto-hide behavior
-	EnableAutoHidePanes(CBRS_ALIGN_ANY);
-
-	// Load menu item image (not placed on any standard toolbars):
-	//CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
-
-	// set the visual manager and style based on persisted value
-	OnApplicationLook(theApp.m_nAppLook);
-
-	// Enable toolbar and docking window menu replacement
-	EnablePaneMenu(TRUE, ID_VIEW_CUSTOMIZE, strCustomize, ID_VIEW_TOOLBAR);
-
-	// enable quick (Alt+drag) toolbar customization
-	CMFCToolBar::EnableQuickCustomization();
+   m_pos.Load(this);
+   LoadBarState(KEY_CTRLBARS);
 	return 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
@@ -171,9 +158,13 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
   	return TRUE;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CFrameWndEx::PreCreateWindow(cs) )
+	if( !CFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
@@ -182,18 +173,30 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 }
 
 #ifdef _DEBUG
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::AssertValid() const
 {
-	CFrameWndEx::AssertValid();
+	CFrameWnd::AssertValid();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::Dump(CDumpContext& dc) const
 {
-	CFrameWndEx::Dump(dc);
+	CFrameWnd::Dump(dc);
 }
 
 #endif //_DEBUG
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CCodezBankView* CMainFrame::GetRightPane()
 {
 	CWnd* pWnd = m_wndSplitter.GetPane(0, 1);
@@ -201,6 +204,10 @@ CCodezBankView* CMainFrame::GetRightPane()
 	return pView;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CLeftView* CMainFrame::GetLeftPane()
 {
    CWnd* pWnd = m_wndSplitter.GetPane(0, 0);
@@ -208,6 +215,10 @@ CLeftView* CMainFrame::GetLeftPane()
 	return pView;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::OnUpdateViewStyles(CCmdUI* pCmdUI)
 {
 	if (!pCmdUI)
@@ -270,6 +281,10 @@ void CMainFrame::OnUpdateViewStyles(CCmdUI* pCmdUI)
 	}
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::OnViewStyle(UINT nCommandID)
 {
 	// TODO: customize or extend this code to handle choices on the View menu
@@ -317,16 +332,26 @@ void CMainFrame::OnViewStyle(UINT nCommandID)
 	}
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::OnDestroy()
 {
+   m_pos.Save(this);
+   SaveBarState(KEY_CTRLBARS);
 
-   CFrameWndEx::OnDestroy();
+   CFrameWnd::OnDestroy();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 LRESULT CMainFrame::OnIdleUpdateCmdUI(WPARAM wParam, LPARAM)
 {
    m_titleBar.OnIdleUpdate(this, (BOOL)wParam);	// pass to title bar
-   CFrameWndEx::OnIdleUpdateCmdUI();				// pass to default handler
+   CFrameWnd::OnIdleUpdateCmdUI();				// pass to default handler
    return 0L;
 }
 
@@ -336,15 +361,23 @@ LRESULT CMainFrame::OnIdleUpdateCmdUI(WPARAM wParam, LPARAM)
 ///////////////////////////////////////////////
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-   return CFrameWndEx::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo) ?
+   return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo) ?
             TRUE : m_titleBar.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::SwitchView(LPCTSTR lpNewView)
 {
    m_wndSplitter.SwitchToView(0, 1, lpNewView);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 LRESULT CMainFrame::OnFindReplace(WPARAM wparam, LPARAM lparam)
 {
    if(NULL != m_pFindDlg )
@@ -375,6 +408,10 @@ LRESULT CMainFrame::OnFindReplace(WPARAM wparam, LPARAM lparam)
    return 0L;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::OnEditFind()
 {
    if(m_pFindDlg == NULL)
@@ -390,10 +427,14 @@ void CMainFrame::OnEditFind()
    }
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CMainFrame::UpdateIndSnipCount(CCmdUI* pCmdUI, INT_PTR nCount)
 {
    CString str;
-   str.Format("Snippet Count: %d", (UINT)nCount);
+   str.Format("Snippet Count: %d", nCount);
 
    CClientDC dc(&m_wndStatusBar);
 	CFont* pOldFont = dc.SelectObject(m_wndStatusBar.GetFont());
@@ -407,123 +448,4 @@ void CMainFrame::UpdateIndSnipCount(CCmdUI* pCmdUI, INT_PTR nCount)
 	m_wndStatusBar.SetPaneInfo(2, nID, nStyle, szExtent.cx/* + 18*/);
 
 	pCmdUI->SetText(str);
-	pCmdUI->Enable();
-}
-
-void CMainFrame::OnApplicationLook(UINT id)
-{
-	CWaitCursor wait;
-
-	theApp.m_nAppLook = id;
-
-	switch (theApp.m_nAppLook)
-	{
-	case ID_VIEW_APPLOOK_WIN_2000:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManager));
-		break;
-
-	case ID_VIEW_APPLOOK_OFF_XP:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOfficeXP));
-		break;
-
-	case ID_VIEW_APPLOOK_WIN_XP:
-		CMFCVisualManagerWindows::m_b3DTabsXPTheme = TRUE;
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
-		break;
-
-	case ID_VIEW_APPLOOK_OFF_2003:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2003));
-		CDockingManager::SetDockingMode(DT_SMART);
-		break;
-
-	case ID_VIEW_APPLOOK_VS_2005:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerVS2005));
-		CDockingManager::SetDockingMode(DT_SMART);
-		break;
-
-	case ID_VIEW_APPLOOK_VS_2008:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerVS2008));
-		CDockingManager::SetDockingMode(DT_SMART);
-		break;
-
-	case ID_VIEW_APPLOOK_WINDOWS_7:
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows7));
-		CDockingManager::SetDockingMode(DT_SMART);
-		break;
-
-	default:
-		switch (theApp.m_nAppLook)
-		{
-		case ID_VIEW_APPLOOK_OFF_2007_BLUE:
-			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_LunaBlue);
-			break;
-
-		case ID_VIEW_APPLOOK_OFF_2007_BLACK:
-			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_ObsidianBlack);
-			break;
-
-		case ID_VIEW_APPLOOK_OFF_2007_SILVER:
-			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_Silver);
-			break;
-
-		case ID_VIEW_APPLOOK_OFF_2007_AQUA:
-			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_Aqua);
-			break;
-		}
-
-		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
-		CDockingManager::SetDockingMode(DT_SMART);
-	}
-
-	//m_wndOutput.UpdateFonts();
-	RedrawWindow(nullptr, nullptr, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);
-
-	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
-}
-
-void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
-{
-	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
-}
-
-BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext)
-{
-	// base class does the real work
-	if (!CFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
-	{
-		return FALSE;
-	}
-	return TRUE;
-}
-
-void CMainFrame::OnViewCustomize()
-{
-	CMFCToolBarsCustomizeDialog* pDlgCust = new CMFCToolBarsCustomizeDialog(this, TRUE /* scan menus */);
-	pDlgCust->Create();
-}
-
-LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp, LPARAM lp)
-{
-	LRESULT lres = CFrameWndEx::OnToolbarCreateNew(wp, lp);
-	if (lres == 0)
-	{
-		return 0;
-	}
-
-	CMFCToolBar* pUserToolbar = (CMFCToolBar*)lres;
-	ASSERT_VALID(pUserToolbar);
-
-	BOOL bNameValid;
-	CString strCustomize;
-	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
-	ASSERT(bNameValid);
-
-	pUserToolbar->EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
-	return lres;
-}
-
-void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
-{
-	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
-//	m_wndOutput.UpdateFonts();
 }

@@ -25,7 +25,7 @@
 
 namespace Utils{
 
-class CMultiViewSplitterWnd : public CSplitterWndEx
+class CMultiViewSplitterWnd : public CSplitterWnd
 {
 	DECLARE_DYNAMIC(CMultiViewSplitterWnd)
 

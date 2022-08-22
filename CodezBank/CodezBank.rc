@@ -13,11 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// English (U.S.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -62,15 +64,10 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\CodezBank.ico"
-
 IDR_CodezBankTYPE       ICON                    "res\\CodezBankDoc.ico"
-
 IDI_FOLDER              ICON                    "res\\open_fold.ico"
-
 IDI_CODE                ICON                    "res\\code.ico"
-
 IDI_CODE2               ICON                    "res\\code2.ico"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -78,44 +75,15 @@ IDI_CODE2               ICON                    "res\\code2.ico"
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
-
-IDR_MAINFRAME_256       BITMAP                  "res\\toolbar256.bmp"
-
+IDB_TOOLBAR_COLD        BITMAP                  "res\\toolbar256.bmp"
 IDB_TOOLBAR_HOT         BITMAP                  "res\\toolbar256_hot.bmp"
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR 16, 15
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    SEPARATOR
-    BUTTON      ID_CODE_NEWTOPMOSTFOLDER
-    BUTTON      ID_CODE_NEWFOLDER
-    BUTTON      ID_CODE_NEWCODESNIPPET
-    SEPARATOR
-    BUTTON      ID_EDIT_CUT
-    BUTTON      ID_EDIT_COPY
-    BUTTON      ID_EDIT_PASTE
-    BUTTON      ID_EDIT_DELETE
-    SEPARATOR
-    BUTTON      ID_EDIT_FIND
-    SEPARATOR
-    BUTTON      ID_VIEW_UPONELEVEL
-    BUTTON      ID_VIEW_LARGEICON
-    BUTTON      ID_VIEW_SMALLICON
-    BUTTON      ID_VIEW_LIST
-    BUTTON      ID_VIEW_DETAILS
-    SEPARATOR
-    BUTTON      ID_APP_ABOUT
-END
-
-IDR_MAINFRAME_256 TOOLBAR 16, 15
+IDR_MAINFRAME TOOLBAR  16, 15
 BEGIN
     BUTTON      ID_FILE_NEW
     BUTTON      ID_FILE_OPEN
@@ -147,7 +115,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU
+IDR_MAINFRAME MENU 
 BEGIN
     POPUP "&File"
     BEGIN
@@ -180,28 +148,8 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
-        POPUP "&Toolbars and Docking Windows"
-        BEGIN
-            MENUITEM "<placeholder>",               ID_VIEW_TOOLBAR
-        END
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        POPUP "&Application Look"
-        BEGIN
-            MENUITEM "Windows &2000",               32778
-            MENUITEM "Office &XP",                  32779
-            MENUITEM "&Windows XP",                 32780
-            MENUITEM "Office 200&3",                32781
-            MENUITEM "Visual Studio 200&5",         32782
-            MENUITEM "Visual Studio 200&8",         32783
-            POPUP "Office 200&7"
-            BEGIN
-                MENUITEM "&Blue Style",                 32784
-                MENUITEM "B&lack Style",                32785
-                MENUITEM "&Silver Style",               32786
-                MENUITEM "&Aqua Style",                 32787
-            END
-            MENUITEM "Windows 7",                   ID_VIEW_APPLOOK_WINDOWS_7
-        END
         MENUITEM SEPARATOR
         MENUITEM "&Up One Level",               ID_VIEW_UPONELEVEL
     END
@@ -217,7 +165,7 @@ BEGIN
     END
 END
 
-IDR_TREE_CONTEXT MENU
+IDR_TREE_CONTEXT MENU 
 BEGIN
     POPUP "_TREE_POPUP_"
     BEGIN
@@ -230,7 +178,7 @@ BEGIN
     END
 END
 
-IDR_TEXT_POPUP MENU
+IDR_TEXT_POPUP MENU 
 BEGIN
     POPUP "_TEXT_"
     BEGIN
@@ -250,7 +198,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS
+IDR_MAINFRAME ACCELERATORS 
 BEGIN
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
@@ -330,7 +278,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -348,26 +296,24 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
-    IDS_TOOLBAR_STANDARD    "Standard"
-    IDS_TOOLBAR_CUSTOMIZE   "Customize..."
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "CodezBank\n\nCodezBank\nCodezBank Files (*.codezbank)\n.codezbank\nCodezBank.Document\nCodezBank.Document"
     IDS_RICHED_LOAD_FAIL    "Could not load the RichEdit control DLL.  The file RICHED32.DLL may be missing or corrupt."
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_APP_TITLE       "CodezBank"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -378,7 +324,7 @@ BEGIN
     ID_INDICATOR_SNIP_COUNT "Count:"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -388,13 +334,13 @@ BEGIN
     ID_FILE_SEND_MAIL       "Send copy of this document to mail recipient\nSend Mail"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -414,18 +360,18 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -440,14 +386,14 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
     ID_VIEW_AUTOARRANGE     "Arrange icons on a grid."
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -458,13 +404,13 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_VIEW_SMALLICON       "Display items by using small icons.\nSmall Icons"
     ID_VIEW_LARGEICON       "Display items by using large icons.\nLarge Icons"
@@ -474,7 +420,7 @@ BEGIN
     ID_VIEW_BYNAME          "Sorts the icons alphabetically."
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     ID_CODE_NEWFOLDER       "Create a new folder\nNew Folder"
     ID_VIEW_UPONELEVEL      "Go up one level\nUp One Level"
@@ -484,7 +430,7 @@ BEGIN
     ID_EDIT_RENAME          "Rename selected item\nRename"
 END
 
-#endif    // English (United States) resources
+#endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

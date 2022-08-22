@@ -16,10 +16,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
-// Author: steveb
+// Author: steveb sbryndin@yahoo.com
 //
 // History:
-// 8/13/22 Updated CSplitterWnd
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -40,13 +39,14 @@ public:
 #endif
 
 protected:
-   CSplitterWndEx m_wndSplitter;
+   CSplitterWnd m_wndSplitter;
 
    CCodeContainer();           // protected constructor used by dynamic creation
 	virtual ~CCodeContainer();
 
 	DECLARE_MESSAGE_MAP()
    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+public:
    afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 

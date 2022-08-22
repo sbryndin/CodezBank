@@ -55,6 +55,10 @@ BEGIN_MESSAGE_MAP(CLeftView, CTreeView)
    ON_NOTIFY_REFLECT(NM_DBLCLK, &CLeftView::OnNMDblclk)
 END_MESSAGE_MAP()
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CLeftView::CLeftView():
   m_bLDragging(FALSE)
 , m_hDrag(NULL)
@@ -64,16 +68,28 @@ CLeftView::CLeftView():
    m_nMask = TVIF_IMAGE | TVIF_PARAM | TVIF_SELECTEDIMAGE | TVIF_TEXT;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CLeftView::~CLeftView()
 {
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 BOOL CLeftView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	cs.style |= TVS_HASLINES|TVS_HASBUTTONS|TVS_LINESATROOT|TVS_SHOWSELALWAYS|TVS_EDITLABELS;
 	return CTreeView::PreCreateWindow(cs);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
@@ -101,16 +117,28 @@ void CLeftView::Populate(HTREEITEM hParent, CCodeNode* pNode)
 }
 
 #ifdef _DEBUG
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::AssertValid() const
 {
 	CTreeView::AssertValid();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::Dump(CDumpContext& dc) const
 {
 	CTreeView::Dump(dc);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 CCodezBankDoc* CLeftView::GetDocument() // non-debug version is inline
 {
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CCodezBankDoc)));
@@ -118,6 +146,10 @@ CCodezBankDoc* CLeftView::GetDocument() // non-debug version is inline
 }
 #endif //_DEBUG
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnSize(UINT nType, int cx, int cy)
 {
    CTreeView::OnSize(nType, cx, cy);
@@ -125,6 +157,10 @@ void Views::CLeftView::OnSize(UINT nType, int cx, int cy)
    AfxGetApp()->WriteProfileInt(SECTION_SETTINGS, KEY_TREEVIEW, cx);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 int Views::CLeftView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
    if (CTreeView::OnCreate(lpCreateStruct) == -1)
@@ -139,6 +175,10 @@ int Views::CLeftView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    return 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
    CCodeNode* pNodeIn = reinterpret_cast<CCodeNode*>(pHint);
@@ -215,6 +255,10 @@ void Views::CLeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
    }
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::AddNewFolder(CCodeNode* pNodeIn)
 {
    HTREEITEM hSel = GetTreeCtrl().GetSelectedItem();
@@ -240,6 +284,10 @@ void CLeftView::AddNewFolder(CCodeNode* pNodeIn)
    GetTreeCtrl().Invalidate();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::AddNewTopFolder(CCodeNode* pNodeIn)
 {
    int nImage = 0;
@@ -251,6 +299,10 @@ void CLeftView::AddNewTopFolder(CCodeNode* pNodeIn)
    GetTreeCtrl().Invalidate();
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnTvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
@@ -259,6 +311,10 @@ void Views::CLeftView::OnTvnGetdispinfo(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnTvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMTVDISPINFO pTVDispInfo = reinterpret_cast<LPNMTVDISPINFO>(pNMHDR);
@@ -273,6 +329,10 @@ void Views::CLeftView::OnTvnEndlabeledit(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnTvnItemexpanded(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -285,6 +345,10 @@ void Views::CLeftView::OnTvnItemexpanded(NMHDR *pNMHDR, LRESULT *pResult)
    *pResult = 0;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnTvnSelchanged(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -337,6 +401,10 @@ HTREEITEM CLeftView::DoSelect(HTREEITEM hStart, CCodeNode* pNode)
    return NULL;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 HTREEITEM CLeftView::DoRemove(HTREEITEM hStart, CCodeNode* pNode)
 {
    CTreeCtrl& tree = GetTreeCtrl();
@@ -363,6 +431,10 @@ HTREEITEM CLeftView::DoRemove(HTREEITEM hStart, CCodeNode* pNode)
    return NULL;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::MoveUp(void)
 {
    HTREEITEM hSel = GetTreeCtrl().GetSelectedItem();
@@ -379,6 +451,10 @@ void CLeftView::MoveUp(void)
    }
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::OnEditDelete()
 {
    HTREEITEM hSel = GetTreeCtrl().GetSelectedItem();
@@ -392,11 +468,19 @@ void CLeftView::OnEditDelete()
    GetTreeCtrl().DeleteItem(hSel);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::OnUpdateEditDelete(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(GetTreeCtrl().GetSelectedItem() != NULL);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
    if (point.x == -1 && point.y == -1)
@@ -425,6 +509,10 @@ void CLeftView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnRButtonDown(UINT nFlags, CPoint point)
 {
    CTreeView::OnRButtonDown(nFlags, point);
@@ -433,6 +521,10 @@ void Views::CLeftView::OnRButtonDown(UINT nFlags, CPoint point)
    OnContextMenu(this, point);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::FindString(LPCTSTR lpString, BOOL bDown, BOOL bCaseSensitve, BOOL bWholeWord)
 {
    HTREEITEM hSel = GetTreeCtrl().GetSelectedItem();
@@ -444,6 +536,10 @@ void CLeftView::FindString(LPCTSTR lpString, BOOL bDown, BOOL bCaseSensitve, BOO
    GetDocument()->FindString(pNode, lpString, bDown, bCaseSensitve, bWholeWord);  
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 {
    LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
@@ -467,6 +563,10 @@ void Views::CLeftView::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnMouseMove(UINT nFlags, CPoint point)
 {
    HTREEITEM	hitem;
@@ -489,6 +589,10 @@ void Views::CLeftView::OnMouseMove(UINT nFlags, CPoint point)
    CTreeView::OnMouseMove(nFlags, point);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnLButtonUp(UINT nFlags, CPoint point)
 {
    CTreeView::OnLButtonUp(nFlags, point);
@@ -531,19 +635,23 @@ void Views::CLeftView::OnLButtonUp(UINT nFlags, CPoint point)
 HTREEITEM CLeftView::CopyBranch( HTREEITEM htiBranch, HTREEITEM htiNewParent, 
                                                 HTREEITEM htiAfter /*= TVI_LAST*/ )
 {
-   HTREEITEM hChild;
+        HTREEITEM hChild;
 
-   HTREEITEM hNewItem = CopyItem( htiBranch, htiNewParent, htiAfter );
-   hChild = GetTreeCtrl().GetChildItem(htiBranch);
-   while( hChild != NULL)
-   {
-      // recursively transfer all the items
-      CopyBranch(hChild, hNewItem);  
-      hChild = GetTreeCtrl().GetNextSiblingItem( hChild );
-   }
-   return hNewItem;
+        HTREEITEM hNewItem = CopyItem( htiBranch, htiNewParent, htiAfter );
+        hChild = GetTreeCtrl().GetChildItem(htiBranch);
+        while( hChild != NULL)
+        {
+          // recursively transfer all the items
+          CopyBranch(hChild, hNewItem);  
+          hChild = GetTreeCtrl().GetNextSiblingItem( hChild );
+        }
+        return hNewItem;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 HTREEITEM CLeftView::CopyItem( HTREEITEM hItem, HTREEITEM htiNewParent, 
                                         HTREEITEM htiAfter /*= TVI_LAST*/ )
 
@@ -582,6 +690,10 @@ HTREEITEM CLeftView::CopyItem( HTREEITEM hItem, HTREEITEM htiNewParent,
    return hNewItem;
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void CLeftView::OnItemCopied(HTREEITEM hItem, HTREEITEM hNewItem)
 {
    DWORD_PTR dwData = GetTreeCtrl().GetItemData(hItem);
@@ -596,6 +708,10 @@ void CLeftView::OnItemCopied(HTREEITEM hItem, HTREEITEM hNewItem)
    pParentNode->m_lstChildren.AddTail(pNode);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnEditRename()
 {
    HTREEITEM hItem = GetTreeCtrl().GetSelectedItem();  
@@ -603,11 +719,19 @@ void Views::CLeftView::OnEditRename()
       GetTreeCtrl().EditLabel(hItem);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnUpdateEditRename(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(GetTreeCtrl().GetSelectedItem() != NULL);
 }
 
+///////////////////////////////////////////////
+///
+/// 
+///////////////////////////////////////////////
 void Views::CLeftView::OnUpdateViewUponelevel(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(GetTreeCtrl().GetSelectedItem() != NULL);
