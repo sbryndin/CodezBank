@@ -49,9 +49,9 @@ public:
    COleDateTime   m_tModified;
    CCodeNodeList  m_lstChildren;
 
-   CString        m_strFound;
-   BOOL           m_bMatchCase;
-   BOOL           m_bWholeWord;
+   CString        m_strFound;    // non serializable
+   BOOL           m_bMatchCase;  // non serializable
+   BOOL           m_bWholeWord;  // non serializable
 
    CString        m_strNote; // new member in Schema #2
 

@@ -177,7 +177,13 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
    //regExp->Pattern = _bstr_t("[#a-zA-Z0-9_]*");
    //BSTR bstrText = strText.AllocSysString();
    //IMatchCollectionPtr MatchesPtr = regExp->Execute(bstrText);
+   
+   // Happens if the code is empty
+   CString strTemp = strText;
+   strTemp.Trim();
 
+   if (strTemp.IsEmpty())
+      return;
     
    std::regex rgx("[#a-zA-Z0-9_]*\\b");
    std::cmatch match;

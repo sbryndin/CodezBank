@@ -407,6 +407,7 @@ void CMainFrame::UpdateIndSnipCount(CCmdUI* pCmdUI, INT_PTR nCount)
 	m_wndStatusBar.SetPaneInfo(2, nID, nStyle, szExtent.cx/* + 18*/);
 
 	pCmdUI->SetText(str);
+	pCmdUI->Enable();
 }
 
 void CMainFrame::OnApplicationLook(UINT id)
