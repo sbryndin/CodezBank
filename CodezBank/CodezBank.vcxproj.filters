@@ -51,6 +51,15 @@
     <ClCompile Include="SyntaxColorView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AppPropSheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgBanner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralPropPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeContainer.h">
@@ -104,6 +113,15 @@
     <ClInclude Include="wndpos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AppPropSheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgBanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralPropPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\code.ico">
@@ -131,6 +149,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\toolbar256_hot.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\HeaderPat_1.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\HeaderPat_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\HeaderPat_3.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\HeaderPat_4.BMP">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\options.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

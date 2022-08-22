@@ -20,8 +20,9 @@
 //
 // History:
 // 
-// 08/12/22 Changed bas app class from CWinApp to CWinAppEx to take advantage
+// 08/12/22 Changed base app class from CWinApp to CWinAppEx to take advantage
 //          of new MFC features.
+// 08/22/2022	Added logic to load last file on the startup
 //
 ////////////////////////////////////////////////////////////////////////////////
 #pragma once
@@ -39,6 +40,7 @@
 #define KEY_TREEVIEW          "TreeView"
 #define KEY_LISTSTYLE         "ListStyle"
 #define KEY_CODEVIEW          "CodeViewHeight"
+#define KEY_LOADLASTFILE      "LoadLastFile"
 
 #define EMPTY_PTR_LIST(list) \
    while(list.GetCount() > 0) \
@@ -59,10 +61,14 @@ public:
    virtual void LoadCustomState();
    virtual void SaveCustomState();
 
+   void UpdateLoadLastFile(BOOL val);
+   BOOL GetLoadLastFile() const { return m_bLoadLastFile; }
+
    UINT  m_nAppLook;
    BOOL  m_bHiColorIcons;
-
+   
 protected:
+   BOOL  m_bLoadLastFile;
 	
 	DECLARE_MESSAGE_MAP()
    afx_msg void OnAppAbout();
@@ -82,7 +88,7 @@ inline CMainFrame* Frame(void)
 }
 
 ///////////////////////////////////////////////
-/// 
+/// Message box with variable argument list
 /// 
 ///////////////////////////////////////////////
 inline int Ask(UINT nMBStyle, LPCTSTR szTemplate, ...)

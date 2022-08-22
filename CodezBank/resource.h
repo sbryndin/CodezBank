@@ -7,6 +7,7 @@
 #define ID_TITLE_MOD                    101
 #define IDS_TOOLBAR_STANDARD            101
 #define IDS_TOOLBAR_CUSTOMIZE           102
+#define IDD_PROPPAGE_GENERAL            107
 #define ID_VIEW_ARRANGE                 127
 #define IDR_MAINFRAME                   128
 #define IDR_CodezBankTYPE               129
@@ -21,6 +22,12 @@
 #define IDB_TOOLBAR_HOT                 137
 #define IDR_MAINFRAME_256               138
 #define ID_VIEW_CUSTOMIZE               139
+#define IDB_HEADERPAT_1                 139
+#define IDB_HEADERPAT_2                 140
+#define IDB_HEADERPAT_3                 141
+#define IDB_HEADERPAT_4                 142
+#define IDB_OPTIONS                     143
+#define IDC_CHECK_LOAD_LAST_FILE        1000
 #define ID_CODE_NEWFOLDER               32771
 #define ID_VIEW_UPONELEVEL              32772
 #define ID_CODE_NEWTOPMOSTFOLDER        32773
@@ -40,6 +47,9 @@
 #define ID_VIEW_APPLOOK_OFF_2007_AQUA   32787
 #define ID_VIEW_APPLOOK_WINDOWS_7       32788
 #define ID_APPLICATIONLOOK_WINDOWS7     32789
+#define ID_TOOLS_OPTIONS                32790
+#define ID_FILE_OPTIONS                 32791
+#define ID_FILE_OP                      32792
 #define ID_INDICATOR_SCIP_COUNT         59142
 #define ID_INDICATOR_SNIP_COUNT         59142
 
@@ -47,9 +57,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         32790
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_COMMAND_VALUE         32793
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           102
 #endif
 #endif

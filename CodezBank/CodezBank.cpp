@@ -19,6 +19,8 @@
 // Author: steveb
 //
 // History:
+// 
+// 08/22/2022	Added logic to load last file on the startup
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
@@ -45,6 +47,7 @@ CCodezBankApp::CCodezBankApp()
 {
 	m_bHiColorIcons = TRUE;
 	m_nAppLook = 0;
+	m_bLoadLastFile = TRUE;
 }
 
 // The one and only CCodezBankApp object
@@ -92,10 +95,9 @@ BOOL CCodezBankApp::InitInstance()
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 	InitContextMenuManager();
-
 	InitKeyboardManager();
-
 	InitTooltipManager();
+
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
 	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
@@ -128,6 +130,18 @@ BOOL CCodezBankApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
+	// Load last file on startup if the option is selected
+	if (m_bLoadLastFile && m_pRecentFileList)
+	{		
+		if (m_pRecentFileList->GetSize() > 0)
+		{
+			CString strLastFile = (*m_pRecentFileList)[0];
+			// Can be empty
+			if(!strLastFile.IsEmpty())
+				OpenDocumentFile(strLastFile);
+		}			
+	}
+
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
@@ -150,45 +164,65 @@ void CCodezBankApp::PreLoadState()
 
 void CCodezBankApp::LoadCustomState()
 {
+	// Load values from registry
+	m_bLoadLastFile = GetInt(KEY_LOADLASTFILE, TRUE);
 }
 
 void CCodezBankApp::SaveCustomState()
 {
+	// Save value into registry
+	WriteInt(KEY_LOADLASTFILE, (int)m_bLoadLastFile);
 }
 
-
-// CAboutDlg dialog used for App About
-class CAboutDlg : public CDialog
+void CCodezBankApp::UpdateLoadLastFile(BOOL val)
 {
-public:
-	CAboutDlg();
+	if (m_bLoadLastFile == val)
+		return;
 
-// Dialog Data
-	enum { IDD = IDD_ABOUTBOX };
+	m_bLoadLastFile = val;
 
-protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
-// Implementation
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
-{
+	// Save value into registry
+	WriteInt(KEY_LOADLASTFILE, (int)m_bLoadLastFile);
 }
 
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+namespace Dialogs
 {
-	CDialog::DoDataExchange(pDX);
-}
 
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-END_MESSAGE_MAP()
+	// CAboutDlg dialog used for App About
+	class CAboutDlg : public CDialog
+	{
+	public:
+		CAboutDlg();
+
+		// Dialog Data
+		enum { IDD = IDD_ABOUTBOX };
+
+	protected:
+		virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+		// Implementation
+	protected:
+		DECLARE_MESSAGE_MAP()
+	};
+
+	CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+	{
+	}
+
+	void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+	{
+		CDialog::DoDataExchange(pDX);
+	}
+
+	BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
+	END_MESSAGE_MAP()
+}
 
 // App command to run the dialog
 void CCodezBankApp::OnAppAbout()
 {
+	using namespace Dialogs;
+
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }

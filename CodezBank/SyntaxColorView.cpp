@@ -202,6 +202,9 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
       size_t nEnd = first - tgt;
       size_t nStart = nEnd - strRetMatch.GetLength();
 
+      if (nStart == nEnd)
+         break;
+
       DoKeywords(strRetMatch, (int)nStart, (int)nEnd);
    }
    
@@ -237,6 +240,9 @@ void ColorSyntax::CSyntaxColorView::Scan(CString strText)
 
       size_t nEnd = first - tgt;
       size_t nStart = nEnd - strRetMatch.GetLength();
+
+      if (nStart == nEnd)
+         break;
 
       DoStringLiterals((int)nStart, (int)nEnd);
    }

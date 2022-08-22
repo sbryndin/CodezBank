@@ -204,12 +204,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppPropSheet.cpp" />
     <ClCompile Include="CodeContainer.cpp" />
     <ClCompile Include="CodeNode.cpp" />
     <ClCompile Include="CodeView.cpp" />
     <ClCompile Include="CodezBank.cpp" />
     <ClCompile Include="CodezBankDoc.cpp" />
     <ClCompile Include="CodezBankView.cpp" />
+    <ClCompile Include="DlgBanner.cpp" />
+    <ClCompile Include="GeneralPropPage.cpp" />
     <ClCompile Include="LeftView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MultiViewSplitterWnd.cpp" />
@@ -223,13 +226,16 @@
     <ClCompile Include="SyntaxColorView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppPropSheet.h" />
     <ClInclude Include="CodeContainer.h" />
     <ClInclude Include="CodeNode.h" />
     <ClInclude Include="CodeView.h" />
     <ClInclude Include="CodezBank.h" />
     <ClInclude Include="CodezBankDoc.h" />
     <ClInclude Include="CodezBankView.h" />
+    <ClInclude Include="DlgBanner.h" />
     <ClInclude Include="FileProperties.h" />
+    <ClInclude Include="GeneralPropPage.h" />
     <ClInclude Include="LeftView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MultiViewSplitterWnd.h" />
@@ -246,7 +252,12 @@
     <Image Include="res\code2.ico" />
     <Image Include="res\CodezBank.ico" />
     <Image Include="res\CodezBankDoc.ico" />
+    <Image Include="res\HeaderPat_1.BMP" />
+    <Image Include="res\HeaderPat_2.bmp" />
+    <Image Include="res\HeaderPat_3.BMP" />
+    <Image Include="res\HeaderPat_4.BMP" />
     <Image Include="res\open_fold.ico" />
+    <Image Include="res\options.bmp" />
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\toolbar256.bmp" />
     <Image Include="res\toolbar256_gary.bmp" />

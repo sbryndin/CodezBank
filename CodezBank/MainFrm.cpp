@@ -19,6 +19,8 @@
 // Author: steveb
 //
 // History:
+// 
+// 08/22/2022	Added Options property sheets for configuring the app settings
 //
 ////////////////////////////////////////////////////////////////////////////////
 #include "stdafx.h"
@@ -28,6 +30,8 @@
 #include "CodezBankView.h"
 #include "CodeView.h"
 #include "CodeContainer.h"
+#include "AppPropSheet.h"
+#include "GeneralPropPage.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -52,6 +56,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_WM_SETTINGCHANGE()
+	ON_COMMAND(ID_FILE_OPTIONS, &CMainFrame::OnFileOptions)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -526,4 +531,23 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 //	m_wndOutput.UpdateFonts();
+}
+
+void CMainFrame::OnFileOptions()
+{
+	using namespace Dialogs;
+
+	CAppPropSheet propSheet(this, 0);
+	CGeneralPropPage pageGeneral;
+
+	propSheet.EnablePageHeader(max(60, afxGlobalData.GetTextHeight() * 3));
+	//propSheet.m_psh.dwFlags |= PSH_NOAPPLYNOW;
+	propSheet.SetLook(CMFCPropertySheet::PropSheetLook_List, 124);
+
+	propSheet.AddPage(&pageGeneral);
+
+	if (propSheet.DoModal() != IDOK)
+	{
+		return;
+	}
 }

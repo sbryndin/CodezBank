@@ -83,6 +83,16 @@ IDR_MAINFRAME_256       BITMAP                  "res\\toolbar256.bmp"
 
 IDB_TOOLBAR_HOT         BITMAP                  "res\\toolbar256_hot.bmp"
 
+IDB_HEADERPAT_1         BITMAP                  "res\\HeaderPat_1.BMP"
+
+IDB_HEADERPAT_2         BITMAP                  "res\\HeaderPat_2.bmp"
+
+IDB_HEADERPAT_3         BITMAP                  "res\\HeaderPat_3.BMP"
+
+IDB_HEADERPAT_4         BITMAP                  "res\\HeaderPat_4.BMP"
+
+IDB_OPTIONS             BITMAP                  "res\\options.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -112,6 +122,7 @@ BEGIN
     BUTTON      ID_VIEW_LIST
     BUTTON      ID_VIEW_DETAILS
     SEPARATOR
+    BUTTON      ID_FILE_OPTIONS
     BUTTON      ID_APP_ABOUT
 END
 
@@ -138,6 +149,7 @@ BEGIN
     BUTTON      ID_VIEW_LIST
     BUTTON      ID_VIEW_DETAILS
     SEPARATOR
+    BUTTON      ID_FILE_OPTIONS
     BUTTON      ID_APP_ABOUT
 END
 
@@ -155,6 +167,8 @@ BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "Op&tions",                    ID_FILE_OPTIONS
         MENUITEM SEPARATOR
         MENUITEM "Send To",                     ID_FILE_SEND_MAIL
         MENUITEM SEPARATOR
@@ -284,6 +298,15 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,16,WS_GROUP
 END
 
+IDD_PROPPAGE_GENERAL DIALOGEX 0, 0, 361, 260
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "General"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "Load last file on startup",IDC_CHECK_LOAD_LAST_FILE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,10,344,10
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -339,8 +362,27 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 48
     END
+
+    IDD_PROPPAGE_GENERAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 354
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_PROPPAGE_GENERAL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -482,6 +524,11 @@ BEGIN
     ID_CODE_NEWCODESNIPPET  "Create a new code snippet\nNew Code Snippet"
     ID_EDIT_DELETE          "Delete selected item\nDelete"
     ID_EDIT_RENAME          "Rename selected item\nRename"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_OPTIONS         "Options\nConfigure common application settings"
 END
 
 #endif    // English (United States) resources
