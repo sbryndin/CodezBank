@@ -41,6 +41,7 @@ enum EViewHints
    hintRemoveItemFromTree,
    hintClearDocument,
    hintReloadTree,
+   hintSaveTreeState,
 };
 
 using namespace Data;

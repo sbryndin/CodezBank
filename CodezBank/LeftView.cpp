@@ -212,6 +212,9 @@ void Views::CLeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
       for(POSITION pos = GetDocument()->m_lstNodes.GetHeadPosition(); pos != NULL; )
          Populate(NULL, GetDocument()->m_lstNodes.GetNext(pos));
       break;
+   case hintSaveTreeState:
+      SaveTreeState(nullptr);
+      break;
    }
 }
 
@@ -281,7 +284,7 @@ void Views::CLeftView::OnTvnItemexpanded(NMHDR *pNMHDR, LRESULT *pResult)
       pNode->m_bExpanded = false;
    else if(pNMTreeView->action == 2)
       pNode->m_bExpanded = true;
-
+      
    *pResult = 0;
 }
 
@@ -399,30 +402,6 @@ void CLeftView::OnUpdateEditDelete(CCmdUI *pCmdUI)
 
 void CLeftView::OnContextMenu(CWnd* pWnd, CPoint point)
 {
-   /*if (point.x == -1 && point.y == -1)
-   {
-      //keystroke invocation
-      CRect rect;
-      GetClientRect(rect);
-      ClientToScreen(rect);
-
-      point = rect.TopLeft();
-      point.Offset(5, 5);
-   }
-
-   CMenu menu;
-   VERIFY(menu.LoadMenu(IDR_TREE_CONTEXT));
-
-   CMenu* pPopup = menu.GetSubMenu(0);
-   ASSERT(pPopup != NULL);
-   CWnd* pWndPopupOwner = this;
-
-   while (pWndPopupOwner->GetStyle() & WS_CHILD)
-      pWndPopupOwner = pWndPopupOwner->GetParent();
-
-   pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
-      pWndPopupOwner);		
-      */
    theApp.GetContextMenuManager()->ShowPopupMenu(IDR_TREE_CONTEXT, point.x, point.y, this, TRUE);
 }
 
@@ -618,4 +597,33 @@ void Views::CLeftView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 {
    // TODO: Add your control notification handler code here
    *pResult = 0;
+}
+
+void CLeftView::SaveTreeState(HTREEITEM hItem)
+{
+   CTreeCtrl& tree = GetTreeCtrl();
+
+   if(hItem == nullptr)
+      hItem = tree.GetRootItem();
+
+   while (hItem)
+   {
+      DWORD_PTR dwData = tree.GetItemData(hItem);
+      CCodeNode* pNode = reinterpret_cast<CCodeNode*>(dwData);
+
+      UINT nState = tree.GetItemState(hItem, TVIS_EXPANDED);
+      if (nState)
+         pNode->m_bExpanded = true;
+      else
+         pNode->m_bExpanded = false;
+
+      //TRACE("state: %d %s\n", nState, pNode->m_strName);
+
+      if (tree.ItemHasChildren(hItem))
+      {
+         HTREEITEM hChildItem = tree.GetChildItem(hItem);
+         SaveTreeState(hChildItem);
+      }
+      hItem = tree.GetNextSiblingItem(hItem);
+   }
 }

@@ -40,7 +40,7 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual ~CLeftView();
    void FindString(LPCTSTR lpString, BOOL bDown, BOOL bCaseSensitve, BOOL bWholeWord);
-
+   
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -65,6 +65,7 @@ protected:
    HTREEITEM CopyBranch( HTREEITEM htiBranch, HTREEITEM htiNewParent, HTREEITEM htiAfter = TVI_LAST);
    HTREEITEM CopyItem( HTREEITEM hItem, HTREEITEM htiNewParent, HTREEITEM htiAfter = TVI_LAST);
    virtual void OnItemCopied(HTREEITEM hItem, HTREEITEM hNewItem);
+   void SaveTreeState(HTREEITEM hItem);
 
 	DECLARE_MESSAGE_MAP()
    afx_msg void OnSize(UINT nType, int cx, int cy);

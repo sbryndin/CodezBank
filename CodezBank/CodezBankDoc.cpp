@@ -396,7 +396,7 @@ void CCodezBankDoc::SetCheckpoint(void)
 //   CheckPoint();
 }
 
-BOOL Document::CCodezBankDoc::OnOpenDocument(LPCTSTR lpszPathName)
+BOOL CCodezBankDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
    if(!COleDocument::OnOpenDocument(lpszPathName))
       return FALSE;
@@ -406,31 +406,32 @@ BOOL Document::CCodezBankDoc::OnOpenDocument(LPCTSTR lpszPathName)
    return TRUE;
 }
 
-void Document::CCodezBankDoc::OnEditUndo()
+void CCodezBankDoc::OnEditUndo()
 {
 //   Undo();
 //   UpdateAllViews(NULL, hintReloadTree);
 }
 
-void Document::CCodezBankDoc::OnUpdateEditUndo(CCmdUI *pCmdUI)
+void CCodezBankDoc::OnUpdateEditUndo(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(FALSE);
 }
 
-void Document::CCodezBankDoc::OnEditRedo()
+void CCodezBankDoc::OnEditRedo()
 {
    //Redo();
    //UpdateAllViews(NULL, hintReloadTree);
 }
 
-void Document::CCodezBankDoc::OnUpdateEditRedo(CCmdUI *pCmdUI)
+void CCodezBankDoc::OnUpdateEditRedo(CCmdUI *pCmdUI)
 {
    pCmdUI->Enable(FALSE);
 }
 
-BOOL Document::CCodezBankDoc::OnSaveDocument(LPCTSTR lpszPathName)
+BOOL CCodezBankDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
    //CFileProps propFile(lpszPathName, false);
+   UpdateAllViews(nullptr, hintSaveTreeState);
 
    return COleDocument::OnSaveDocument(lpszPathName);
 }

@@ -157,11 +157,14 @@ BOOL Views::CCodeView::PreCreateWindow(CREATESTRUCT& cs)
 
 void Views::CCodeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-   m_pData = reinterpret_cast<CCodeNode*>(pHint);
-   if(!m_pData)
+   if (lHint != hintSaveTreeState)
    {
-      SetWindowText("");
-      return;
+      m_pData = reinterpret_cast<CCodeNode*>(pHint);
+      if (!m_pData)
+      {
+         SetWindowText("");
+         return;
+      }
    }
 
    switch(lHint)
