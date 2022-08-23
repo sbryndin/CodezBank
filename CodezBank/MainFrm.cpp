@@ -32,6 +32,7 @@
 #include "CodeContainer.h"
 #include "AppPropSheet.h"
 #include "GeneralPropPage.h"
+#include "TextEditPropPage.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -537,14 +538,16 @@ void CMainFrame::OnFileOptions()
 {
 	using namespace Dialogs;
 
-	CAppPropSheet propSheet(this, 0);
-	CGeneralPropPage pageGeneral;
+	CAppPropSheet		propSheet(this, 0);
+	CGeneralPropPage	pageGeneral;
+	CTextEditPropPage pageText;
 
 	propSheet.EnablePageHeader(max(60, afxGlobalData.GetTextHeight() * 3));
 	//propSheet.m_psh.dwFlags |= PSH_NOAPPLYNOW;
 	propSheet.SetLook(CMFCPropertySheet::PropSheetLook_List, 124);
 
 	propSheet.AddPage(&pageGeneral);
+	propSheet.AddPage(&pageText);
 
 	if (propSheet.DoModal() != IDOK)
 	{

@@ -134,7 +134,7 @@ void CAppPropSheet::OnDrawPageHeader(CDC* pDC, int nPage, CRect rectHeader)
 		break;
 
 	case 1:
-		strText = _T("Customize the Quick Access Toolbar and keyboard shortcuts");
+		strText = _T("Text editor common settings");
 		break;
 
 	case 2:

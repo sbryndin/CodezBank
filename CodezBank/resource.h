@@ -8,6 +8,7 @@
 #define IDS_TOOLBAR_STANDARD            101
 #define IDS_TOOLBAR_CUSTOMIZE           102
 #define IDD_PROPPAGE_GENERAL            107
+#define IDD_PROPPAGE_EDITOR             108
 #define ID_VIEW_ARRANGE                 127
 #define IDR_MAINFRAME                   128
 #define IDR_CodezBankTYPE               129
@@ -31,6 +32,12 @@
 #define IDB_OPTIONS                     143
 #define IDC_CHECK_LOAD_LAST_FILE        1000
 #define IDC_COMBO_APPSKINS              1001
+#define IDC_MFCCOLORBUTTON_KEYWORDS     1002
+#define IDC_MFCCOLORBUTTON_COMMENTS     1003
+#define IDC_MFCCOLORBUTTON_STRINGS      1004
+#define IDC_MFCFONTCOMBO_FONT           1005
+#define IDC_COMBO1                      1006
+#define IDC_COMBO_FONT_SIZE             1006
 #define ID_CODE_NEWFOLDER               32771
 #define ID_VIEW_UPONELEVEL              32772
 #define ID_CODE_NEWTOPMOSTFOLDER        32773
@@ -59,9 +66,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        145
+#define _APS_NEXT_RESOURCE_VALUE        149
 #define _APS_NEXT_COMMAND_VALUE         32793
-#define _APS_NEXT_CONTROL_VALUE         1002
+#define _APS_NEXT_CONTROL_VALUE         1007
 #define _APS_NEXT_SYMED_VALUE           102
 #endif
 #endif

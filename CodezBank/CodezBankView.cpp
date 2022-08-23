@@ -131,6 +131,8 @@ int CCodezBankView::OnCreate(LPCREATESTRUCT lpCreateStruct)
    ModifyStyle(LVS_TYPEMASK, dwStyle);
 
    m_wndHeader.SubclassDlgItem(0, this);
+
+   m_clrSortedColumn = CDrawingManager::PixelAlpha(GetListCtrl().GetBkColor(), .97, .97, .97);
    return 0;
 }
 
@@ -322,6 +324,8 @@ void CCodezBankView::OnLvnColumnclick(NMHDR *pNMHDR, LRESULT *pResult)
    LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
    m_bSortOrder = !m_bSortOrder;
    GetListCtrl().SortItems (CompareFunc, pNMLV->iSubItem);
+   m_iSortedColumn = pNMLV->iSubItem;
+   m_wndHeader.SetSortColumn(pNMLV->iSubItem, m_bSortOrder);
    *pResult = 0;
 }
 

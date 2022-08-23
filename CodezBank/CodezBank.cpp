@@ -48,6 +48,11 @@ CCodezBankApp::CCodezBankApp()
 	m_bHiColorIcons = TRUE;
 	m_nAppLook = 0;
 	m_bLoadLastFile = TRUE;
+	m_clrKeyword = clr_Blue;
+	m_clrComment = clr_DkGreen;
+	m_clrString = clr_Brown;
+	m_strFont = _T("Courier");
+	m_nFontHeight = 10;
 }
 
 // The one and only CCodezBankApp object
@@ -174,15 +179,25 @@ void CCodezBankApp::LoadCustomState()
 {
 	// Load values from registry
 	m_bLoadLastFile = GetInt(KEY_LOADLASTFILE, TRUE);
+	m_clrKeyword = GetInt(KEY_KEYWORDCOLOR, clr_Blue);
+	m_clrComment = GetInt(KEY_COMMENTCOLOR, clr_DkGreen);
+	m_clrString = GetInt(KEY_STRINGCOLOR, clr_Brown);
+	m_strFont = GetString(KEY_FONTNAME, _T("Courier"));
+	m_nFontHeight = GetInt(KEY_FONTHEIGHT, 10);
 }
 
 void CCodezBankApp::SaveCustomState()
 {
 	// Save value into registry
 	WriteInt(KEY_LOADLASTFILE, (int)m_bLoadLastFile);
+	WriteInt(KEY_KEYWORDCOLOR, (int)m_clrKeyword);
+	WriteInt(KEY_COMMENTCOLOR, (int)m_clrComment);
+	WriteInt(KEY_STRINGCOLOR, (int)m_clrString);
+	WriteString(KEY_FONTNAME, m_strFont);
+	WriteInt(KEY_FONTHEIGHT, m_nFontHeight);
 }
 
-void CCodezBankApp::UpdateLoadLastFile(BOOL val)
+void CCodezBankApp::SetLoadLastFile(BOOL val)
 {
 	if (m_bLoadLastFile == val)
 		return;
@@ -191,6 +206,56 @@ void CCodezBankApp::UpdateLoadLastFile(BOOL val)
 
 	// Save value into registry
 	WriteInt(KEY_LOADLASTFILE, (int)m_bLoadLastFile);
+}
+
+void CCodezBankApp::SetKeywordColor(COLORREF val)
+{
+	if (m_clrKeyword == val)
+		return;
+
+	m_clrKeyword = val;
+	WriteInt(KEY_KEYWORDCOLOR, (int)m_clrKeyword);
+	m_pMainWnd->SendMessageToDescendants(WM_UPDATEEDITORCOLORS);
+}
+
+void CCodezBankApp::SetCommentColor(COLORREF val)
+{
+	if (m_clrComment == val)
+		return;
+
+	m_clrComment = val;
+	WriteInt(KEY_COMMENTCOLOR, (int)m_clrComment);
+	m_pMainWnd->SendMessageToDescendants(WM_UPDATEEDITORCOLORS);
+}
+
+void CCodezBankApp::SetStringColor(COLORREF val)
+{
+	if (m_clrString == val)
+		return;
+
+	m_clrString = val;
+	WriteInt(KEY_STRINGCOLOR, (int)m_clrString);
+	m_pMainWnd->SendMessageToDescendants(WM_UPDATEEDITORCOLORS);
+}
+
+void CCodezBankApp::SetFontName(LPCTSTR val)
+{
+	if (m_strFont.Compare(val) == 0)
+		return;
+
+	m_strFont = val;
+	WriteString(KEY_FONTNAME, m_strFont);
+	m_pMainWnd->SendMessageToDescendants(WM_UPDATEEDITORFONT);
+}
+
+void CCodezBankApp::SetFontHeight(int val)
+{
+	if (m_nFontHeight == val)
+		return;
+
+	m_nFontHeight = val;
+	WriteInt(KEY_FONTHEIGHT, m_nFontHeight);
+	m_pMainWnd->SendMessageToDescendants(WM_UPDATEEDITORFONT);
 }
 
 namespace Dialogs

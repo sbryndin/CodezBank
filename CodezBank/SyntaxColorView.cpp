@@ -49,6 +49,11 @@ CSyntaxColorView::CSyntaxColorView()
 {
    m_nPasteType = 0;
    m_bSyncCharFormat = m_bSyncParaFormat = TRUE;
+   m_clrKeyword = RGB(0, 0, 0xFF);
+   m_clrComment = RGB(0, 0x80, 0);
+   m_clrString = RGB(0xA5, 0, 0);
+   m_strFont = _T("Courier");
+   m_nFontHeight = 10;
 }
 
 CSyntaxColorView::~CSyntaxColorView()
@@ -112,13 +117,13 @@ void ColorSyntax::CSyntaxColorView::SetDefaultStyle(void)
    cf.cbSize = sizeof (CHARFORMAT2);
    GetRichEditCtrl().GetDefaultCharFormat (cf);
    cf.dwMask = CFM_FACE | CFM_SIZE | CFM_UNDERLINE | CFM_COLOR | CFM_BOLD;
-   cf.yHeight = 10 * 20;	// 10 points in twips
+   cf.yHeight = m_nFontHeight * 20;
    cf.dwEffects &= ~(CFE_AUTOCOLOR | CFE_BOLD);
 
    cf.dwEffects |= CFE_AUTOCOLOR;
 
    cf.crTextColor = RGB(0x00, 0x00, 0x00);
-   strcpy_s(cf.szFaceName, "Courier");
+   strcpy_s(cf.szFaceName, m_strFont);
    GetRichEditCtrl().SetDefaultCharFormat (cf);
 }
 
@@ -234,7 +239,7 @@ void ColorSyntax::CSyntaxColorView::ColorItem(int nStart, int nEnd, COLORREF clr
 
 void ColorSyntax::CSyntaxColorView::DoComments(int nStart, int nEnd)
 {
-   ColorItem(nStart, nEnd, RGB(0, 0x80, 0));
+   ColorItem(nStart, nEnd, m_clrComment);
 }
 
 void ColorSyntax::CSyntaxColorView::ResetToNormal(void)
@@ -247,13 +252,13 @@ void ColorSyntax::CSyntaxColorView::DoKeywords(CString strWord, int nStart, int 
    CString strValue;
    if(m_mapKeywords.Lookup(strWord, strValue))
    {
-      ColorItem(nStart, nEnd, RGB(0,0,255));
+      ColorItem(nStart, nEnd, m_clrKeyword);
    }
 }
 
 void ColorSyntax::CSyntaxColorView::DoStringLiterals(int nStart, int nEnd)
 {
-   ColorItem(nStart, nEnd, RGB(0xA5, 0, 0));
+   ColorItem(nStart, nEnd, m_clrString);
 }
 
 BOOL ColorSyntax::CSyntaxColorView::PreCreateWindow(CREATESTRUCT& cs)

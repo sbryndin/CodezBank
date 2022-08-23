@@ -44,7 +44,12 @@ public:
 protected:
    CComQIPtr<ITextDocument> m_pTomDoc;
    CMapStringToString m_mapKeywords;
-   
+
+   COLORREF m_clrKeyword;
+   COLORREF m_clrComment;  
+   COLORREF m_clrString;
+   CString  m_strFont;
+   int      m_nFontHeight;
 
    CSyntaxColorView();           // protected constructor used by dynamic creation
    virtual ~CSyntaxColorView();

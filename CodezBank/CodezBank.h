@@ -41,11 +41,27 @@
 #define KEY_LISTSTYLE         "ListStyle"
 #define KEY_CODEVIEW          "CodeViewHeight"
 #define KEY_LOADLASTFILE      "LoadLastFile"
+#define KEY_KEYWORDCOLOR      "KeywordColor"
+#define KEY_COMMENTCOLOR      "CommentColor"
+#define KEY_STRINGCOLOR       "StringColor"
+#define KEY_FONTNAME          "FontName"
+#define KEY_FONTHEIGHT        "FontHeight"
+
+// Default syntax colors
+#define clr_Blue     RGB(0, 0, 0xFF)
+#define clr_DkGreen  RGB(0, 0x80, 0)
+#define clr_Brown    RGB(0xA5, 0, 0)
+
 
 #define EMPTY_PTR_LIST(list) \
    while(list.GetCount() > 0) \
       delete list.RemoveHead(); 
 
+enum EAppMessages
+{
+   WM_UPDATEEDITORCOLORS = WM_USER + 1,
+   WM_UPDATEEDITORFONT,
+};
 
 // CCodezBankApp:
 // See CodezBank.cpp for the implementation of this class
@@ -62,14 +78,29 @@ public:
    virtual void LoadCustomState();
    virtual void SaveCustomState();
 
-   void UpdateLoadLastFile(BOOL val);
+   void SetLoadLastFile(BOOL val);
    BOOL GetLoadLastFile() const { return m_bLoadLastFile; }
+   void SetKeywordColor(COLORREF val);
+   COLORREF GetKeywordColor() const { return m_clrKeyword; }
+   void SetCommentColor(COLORREF val);
+   COLORREF GetCommentColor() const { return m_clrComment; }
+   void SetStringColor(COLORREF val);
+   COLORREF GetStringColor() const { return m_clrString; }
+   void SetFontName(LPCTSTR val);
+   CString GetFontName() const { return m_strFont; }
+   void SetFontHeight(int val);
+   int GetFontHeight() const { return m_nFontHeight; }
 
    UINT  m_nAppLook;
    BOOL  m_bHiColorIcons;
    
 protected:
    BOOL  m_bLoadLastFile;
+   COLORREF m_clrKeyword;
+   COLORREF m_clrComment;
+   COLORREF m_clrString;
+   CString  m_strFont;
+   int      m_nFontHeight;
 	
 	DECLARE_MESSAGE_MAP()
    afx_msg void OnAppAbout();

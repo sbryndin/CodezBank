@@ -63,6 +63,8 @@ protected:
    afx_msg void OnEditUndo();
    afx_msg void OnEditRedo();
    afx_msg void OnSize(UINT nType, int cx, int cy);
+   afx_msg LRESULT OnUpdateEditorColors(WPARAM wParam, LPARAM lParam);
+   afx_msg LRESULT OnUpdateEditorFont(WPARAM wParam, LPARAM lParam);
 };
 
 #ifndef _DEBUG  // debug version in LeftView.cpp

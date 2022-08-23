@@ -36,7 +36,7 @@ IMPLEMENT_DYNCREATE(CCodeView, CSyntaxColorView)
 
 CCodeView::CCodeView():
   m_pData(NULL)
-{
+{   
 }
 
 CCodeView::~CCodeView()
@@ -47,6 +47,8 @@ BEGIN_MESSAGE_MAP(CCodeView, CSyntaxColorView)
    ON_COMMAND(ID_EDIT_UNDO, &CCodeView::OnEditUndo)
    ON_COMMAND(ID_EDIT_REDO, &CCodeView::OnEditRedo)
    ON_WM_SIZE()
+   ON_MESSAGE(WM_UPDATEEDITORCOLORS, &CCodeView::OnUpdateEditorColors)
+   ON_MESSAGE(WM_UPDATEEDITORFONT, &CCodeView::OnUpdateEditorFont)
 END_MESSAGE_MAP()
 
 #ifdef _DEBUG
@@ -72,6 +74,8 @@ CCodezBankDoc* CCodeView::GetDocument() // non-debug version is inline
 void Views::CCodeView::OnInitialUpdate()
 {
    CSyntaxColorView::OnInitialUpdate();
+
+   //GetPrivateProfileString();
 
    AddKeyword("auto");
    AddKeyword("break");
@@ -148,6 +152,12 @@ void Views::CCodeView::OnInitialUpdate()
    AddKeyword("typename"); 
    AddKeyword("using"); 
    AddKeyword("wchar_t");
+
+   m_clrKeyword = theApp.GetKeywordColor();
+   m_clrComment = theApp.GetCommentColor();
+   m_clrString = theApp.GetStringColor();
+   m_strFont = theApp.GetFontName();
+   m_nFontHeight = theApp.GetFontHeight();
 }
 
 BOOL Views::CCodeView::PreCreateWindow(CREATESTRUCT& cs)
@@ -223,4 +233,23 @@ void Views::CCodeView::OnSize(UINT nType, int cx, int cy)
    CSyntaxColorView::OnSize(nType, cx, cy);
 
    AfxGetApp()->WriteProfileInt(SECTION_SETTINGS, KEY_CODEVIEW, cy);
+}
+
+LRESULT Views::CCodeView::OnUpdateEditorColors(WPARAM wParam, LPARAM lParam)
+{
+   m_clrKeyword = theApp.GetKeywordColor();
+   m_clrComment = theApp.GetCommentColor();
+   m_clrString = theApp.GetStringColor();
+
+   if(m_pData)
+      SetEditText(m_pData->m_strCode);
+   return 0;
+}
+
+LRESULT Views::CCodeView::OnUpdateEditorFont(WPARAM wParam, LPARAM lParam)
+{
+   m_strFont = theApp.GetFontName();
+   m_nFontHeight = theApp.GetFontHeight();
+   SetDefaultStyle();
+   return 0;
 }

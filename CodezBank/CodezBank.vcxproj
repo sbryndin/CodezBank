@@ -225,6 +225,7 @@
     </ClCompile>
     <ClCompile Include="SyntaxColorView.cpp" />
     <ClCompile Include="SyntaxParser.cpp" />
+    <ClCompile Include="TextEditPropPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppPropSheet.h" />
@@ -245,6 +246,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyntaxColorView.h" />
     <ClInclude Include="SyntaxParser.h" />
+    <ClInclude Include="TextEditPropPage.h" />
     <ClInclude Include="TitleBar.h" />
     <ClInclude Include="undo.h" />
     <ClInclude Include="wndpos.h" />

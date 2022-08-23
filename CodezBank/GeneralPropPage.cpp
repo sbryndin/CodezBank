@@ -156,7 +156,7 @@ BOOL CGeneralPropPage::OnApply()
 
 	if (IsButtonEnabled(ID_APPLY_NOW))
 	{
-		theApp.UpdateLoadLastFile(m_bLoadLastFile);
+		theApp.SetLoadLastFile(m_bLoadLastFile);
 
 		int nCurSel = m_cboSkins.GetCurSel();
 		// Do not bother sending message if nothing changed.

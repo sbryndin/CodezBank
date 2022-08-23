@@ -54,6 +54,8 @@ protected:
    CImageList  m_ImageSm;
    UINT        m_nMask;
    CMFCHeaderCtrl m_wndHeader;
+   COLORREF m_clrSortedColumn;
+   int      m_iSortedColumn = 0;
 
    CCodezBankView();
    virtual void OnInitialUpdate(); // called first time after construct
